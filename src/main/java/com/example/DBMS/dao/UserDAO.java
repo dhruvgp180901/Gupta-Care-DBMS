@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.DBMS.model.User;
@@ -29,7 +30,7 @@ public class UserDAO {
 
 	public void save(User user) {
 
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		System.out.println(user.getUsername());
 		String sql = "insert into user(username,password,role,photo,birthDate,gender,adhaarNumber,emailID,firstName,middleName,lastName,street,city,state,country,phone) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		jt.update(sql, user.getUsername(), user.getPassword(), user.getRole(), user.getPhoto(), user.getBirthDate(),

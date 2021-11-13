@@ -3,7 +3,6 @@ package com.example.DBMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import com.example.DBMS.dao.UserDAO;
 import com.example.DBMS.model.User;
@@ -18,7 +17,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Lazy
@@ -26,7 +24,6 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	UserDAO userDAO;
 	
 	@Override
-	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
 		
 		User user = userDAO.findByUsername(username);
