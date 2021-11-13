@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Add User</h1>
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  User creation form
+                </h6>
+              </div>
+              <div class="card-body">
+                <form method="post" th:object="${user}">
+                  <div class="form-group">
+                    <div ><label class="col-form-label" for="firstName-input-field">First Name </label></div>
+                    <div ><input type="text" class="form-control" placeholder="First Name" required="required" th:field="*{firstName}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="middleName-input-field">Middle Name </label></div>
+                    <div ><input type="text" class="form-control" placeholder="Middle Name" th:field="*{middleName}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="lastName-input-field">Last Name </label></div>
+                    <div ><input type="text" class="form-control" placeholder="Last Name" required="required" th:field="*{lastName}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="emailID-input-field">Email ID </label></div>
+                    <div ><input type="email" class="form-control" placeholder="Email ID" required="required" th:field="*{emailID}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="phone-input-field">Phone </label></div>
+                    <div ><input type="number" class="form-control" placeholder="Phone Number" required="required" th:field="*{phone}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="birthDate-input-field">Date of Birth</label></div>
+                    <div ><input type="date" class="form-control" placeholder="Date of Birth" required="required" th:field="*{birthDate}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="street-input-field">Street </label></div>
+                    <div ><input type="text" class="form-control" placeholder="Street" required="required" th:field="*{street}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="city-input-field">City </label></div>
+                    <div ><input type="text" class="form-control" placeholder="City" required="required" th:field="*{city}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="state-input-field">State </label></div>
+                    <div ><input type="text" class="form-control" placeholder="State" required="required" th:field="*{state}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="country-input-field">Country </label></div>
+                    <div ><input type="text" class="form-control" placeholder="Country" required="required" th:field="*{country}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="adhaarNumber-input-field">Aadhar Card Number </label></div>
+                    <div ><input type="number" class="form-control" placeholder="Aadhar Number" required="required" th:field="*{adhaarNumber}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="gender-input-field">Gender </label></div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"  type="radio" required="required" th:field="*{gender}" id="option1" value="Male">
+                        <label class="form-check-label" for="option1" >Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio"  required="required" th:field="*{gender}" id="option2" value="Female">
+                        <label class="form-check-label" for="option2">Female</label>
+                    </div>
+                </div>
+              <div class="form-group">
+                <label for="session">Role</label>
+                <select style="color: orange;" id="session" required="required" class="form-control" th:field="*{role}">
+                    <option th:value="Doctor">Doctor</option>
+                    <option th:value="Patient">Patient</option>
+                </select>
+            </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="username-input-field">Username </label></div>
+                    <div ><input type="text" class="form-control" required="required" placeholder="Username" th:field="*{username}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="password-input-field">Password </label></div>
+                    <div ><input type="password" class="form-control" required="required" placeholder="Password" th:field="*{password}"></div>
+                </div>
+                <div class="form-group">
+                    <div ><label class="col-form-label" for="passwordConfirm-input-field">Confirm Password </label></div>
+                    <div ><input type="password" class="form-control" required="required" placeholder="Confirm Password" th:field="*{passwordConfirm}"></div>
+                </div>
+                
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

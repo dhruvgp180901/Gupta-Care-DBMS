@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Add Room</h1>
+            </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  Room creation form
+                </h6>
+              </div>
+              <div class="card-body">
+                <form method="post" th:object="${room}">
+                  <div class="form-group">
+                    <label for="ward">Ward</label>
+                    <input
+                      type="text"
+                      id="ward"
+                      class="form-control"
+                      required="required"
+                      placeholder="Ward"
+                      th:field="*{ward}"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="type">Type</label>
+                    <input
+                      type="text"
+                      id="type"
+                      class="form-control"
+                      required="required"
+                      placeholder="Type"
+                      th:field="*{type}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="number">Room Number</label>
+                    <input
+                      type="number"
+                      id="number"
+                      class="form-control"
+                      required="required"
+                      placeholder="Room Number"
+                      th:field="*{number}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="deliveredDate">Number of Beds</label>
+                    <input
+                      type="number"
+                      id="numberofbeds"
+                      class="form-control"
+                      required="required"
+                      placeholder="Number of Beds"
+                      th:field="*{numberofbeds}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="deliveredDate">Cost</label>
+                    <input
+                      type="number"
+                      id="cost"
+                      class="form-control"
+                      required="required"
+                      placeholder="Cost"
+                      th:field="*{cost}"
+                    />
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

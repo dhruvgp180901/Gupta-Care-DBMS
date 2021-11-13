@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body text-align="center" style="background-image: url('https://wallpapercave.com/wp/wp1848585.jpg');">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="row register-form" style="margin-top: 100px; width: 100%;">
+    <div class="col-md-6 offset-md-3" style="background-color: aliceblue;">
+        <form display="inline" class="custom-form" style="background-color: aliceblue;" th:object="${bookroom}" method="POST">
+            <h1>Book Room Form</h1>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="username-input-field">Patient Username </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" th:readonly="true" th:field="*{username}"></div>
+            </div>
+            <!-- <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="currDate-input-field">Date </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" th:readonly="true" th:field="*{currDate}"></div>
+            </div> -->
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="startDate-input-field">Start Date</la0bel></div>
+                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Room Booking Start Date" required="required" th:field="*{startDate}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="endDate-input-field">End Date</la0bel></div>
+                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Room Booking End Date" required="required" th:field="*{endDate}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="description-input-field">Description </label></div>
+                <div class="col-sm-5 input-column"><textarea class="form-control" rows="4" required="required" placeholder="Description" th:field="*{description}"></textarea></div>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Confirm Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>

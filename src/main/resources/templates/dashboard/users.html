@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Manage Users</h1>
+              <a
+                th:href="@{/dashboard/user/add}"
+                class="
+                  d-none d-sm-inline-block
+                  btn btn-sm btn-primary
+                  shadow-sm
+                "
+                >Add User</a
+              >
+            </div>
+
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  List of all Users
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Middle Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Email ID</th>
+                        <th>Phone Number</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="user: ${users}">
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.firstName}">First Name</td>
+                        <td th:text="${user.MiddleName}">Middle Name</td>
+                        <td th:text="${user.lastName}">Last Name</td>
+                        <td th:text="${user.gender}">Gender</td>
+                        <td th:text="${user.emailID}">Email ID</td>
+                        <td th:text="${user.phone}">Phone Number</td>
+                        <td th:text="${user.role}">Role</td>
+                        <td>
+                          <a
+                            th:href="${'/dashboard/manage/user/' + user.username}"
+                            class="btn-sm btn-primary"
+                          >
+                            <span class="text">Manage</span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

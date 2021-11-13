@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div id="contact-sec">
+    <div class="overlay">
+        <div class="container set-pad">
+            <div class="row text-center">
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+                    <h1 data-scroll-reveal="enter from the bottom after 0.1s" class="header-line" >Order Medicine</h1>
+                </div>
+
+            </div>
+            <div class="row set-row-pad"  data-scroll-reveal="enter from the bottom after 0.5s" >
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+            <form th:object="${medicine}" method="POST">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" th:field="*{name}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="color">Color</label>
+                <input type="text" th:field="*{color}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="purpose">Purpose</label>
+                <input type="text" th:field="*{purpose}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control" rows="4" th:field="*{description}" th:readonly="true"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="cost">Cost per piece</label>
+                <input type="text" th:field="*{cost}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Add to My Order</button>
+            </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>
+

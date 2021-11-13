@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+
+<div class="container" style="margin-top:60px;margin-bottom: 200px;">
+  <div class="container justify-content-center">
+    <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">Wards</h1>
+    <div class="row">
+      <div class="model-card offset-md-3" style="padding-top:50px; height: 300px;width: 300px;"><a th:href="@{ward/general}"> 
+      <div class="bsblox-image-effect16"><img class="img-fluid" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80" />
+      
+      <div class="bsblox-caption">
+        
+        <p>Book<strong> Room</strong></p>
+      </div>
+      
+      <div class="bsblox-links"><a class="profile-link" th:href="@{ward/general}"><i class="fa fa-search fa fa-search"></i></a></div>
+        <div class="text-center model-card-title">General</div></div></a></div>
+           
+  
+  <div class="model-card" style="height: 300px;width: 300px;padding-top:50px;"><a th:href="@{ward/private}"> 
+  
+    <div class="bsblox-image-effect16"><img class="img-fluid" src="https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80" />
+
+      <div class="bsblox-caption">
+  
+        <p>Book<strong> Room</strong></p>
+      </div>
+      <div class="bsblox-links"><a class="profile-link" th:href="@{ward/private}"><i class="fa fa-search fa fa-search"></i></a></div>
+      <div class="text-center model-card-title">Private</div></div></a></div>
+      
+      </div>
+      </div>
+    
+    
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+</div>
+
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>

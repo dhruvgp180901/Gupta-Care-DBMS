@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body text-align="center" style="background-image: url('https://wallpapercave.com/wp/wp1848585.jpg');">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="row register-form" style="margin-top: 100px; width: 100%;">
+    <div class="col-md-8 offset-md-2" style="background-color: aliceblue;">
+        <form display="inline" class="custom-form" style="background-color: aliceblue;" method="post" model="user" th:action="@{/register}" th:object="${user}">
+            <h1>Registration Form</h1>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="firstName-input-field">First Name </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="First Name" required="required" th:field="*{firstName}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="middleName-input-field">Middle Name </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Middle Name" th:field="*{middleName}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="lastName-input-field">Last Name </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Last Name" required="required" th:field="*{lastName}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="emailID-input-field">Email ID </label></div>
+                <div class="col-sm-5 input-column"><input type="email" class="form-control" placeholder="Email ID" required="required" th:field="*{emailID}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="phone-input-field">Phone </label></div>
+                <div class="col-sm-5 input-column"><input type="number" class="form-control" placeholder="Phone Number" required="required" th:field="*{phone}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="birthDate-input-field">Date of Birth</label></div>
+                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Date of Birth" required="required" th:field="*{birthDate}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="street-input-field">Street </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Street" required="required" th:field="*{street}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="city-input-field">City </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="City" required="required" th:field="*{city}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="state-input-field">State </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="State" required="required" th:field="*{state}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="country-input-field">Country </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Country" required="required" th:field="*{country}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="adhaarNumber-input-field">Aadhar Card Number </label></div>
+                <div class="col-sm-5 input-column"><input type="number" class="form-control" placeholder="Aadhar Number" required="required" th:field="*{adhaarNumber}"></div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-4 label-column" style="margin-left:-18px;"><label class="col-form-label" for="gender-input-field">Gender </label></div>
+                <div class="form-check form-check-inline" style="margin-left: -240px;">
+                    <input class="form-check-input" style="margin-top:-25px;" type="radio" required="required" th:field="*{gender}" id="option1" value="Male">
+                    <label class="form-check-label" for="option1" style="margin-left:-23px;">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" style="margin-top:-25px;" required="required" th:field="*{gender}" id="option2" value="Female">
+                    <label class="form-check-label" for="option2" style="margin-left:-23px;">Female</label>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="username-input-field">Username </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" required="required" placeholder="Username" th:field="*{username}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="password-input-field">Password </label></div>
+                <div class="col-sm-5 input-column"><input type="password" class="form-control" required="required" placeholder="Password" th:field="*{password}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="passwordConfirm-input-field">Confirm Password </label></div>
+                <div class="col-sm-5 input-column"><input type="password" class="form-control" required="required" placeholder="Confirm Password" th:field="*{passwordConfirm}"></div>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>

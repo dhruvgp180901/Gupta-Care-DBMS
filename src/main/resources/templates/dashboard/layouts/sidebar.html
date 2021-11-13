@@ -1,0 +1,200 @@
+<ul
+  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  id="accordionSidebar"
+  th:fragment="sidebar"
+>
+  <a
+    class="sidebar-brand d-flex align-items-center justify-content-center"
+    th:href="@{/}"
+  >
+    <div class="sidebar-brand-text mx-3">Hospital Management</div>
+  </a>
+
+  <hr class="sidebar-divider my-0" />
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Manage</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/users}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Users</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/doctors}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Doctors</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/medicines}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Medicines</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/rooms}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Rooms</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/tests}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Tests</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/appointments}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Appointments</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/medicineOrders}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Medicine Orders</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/roomBookings}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Room Bookings</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/testBookings}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Test Bookings</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/feedbacks}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Feedbacks</span></a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/manage/contactUsForms}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Contact Us Forms</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Account</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/changePassword}">
+      <i class="fas fa-key"></i>
+      <span>Change Password</span></a
+    >
+  </li>
+</ul>
+
+<ul
+  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  id="accordionSidebar"
+  th:fragment="sidebar"
+  th:if="${userRole == 'student'}"
+>
+  <a
+    class="sidebar-brand d-flex align-items-center justify-content-center"
+    th:href="@{/}"
+  >
+    <div class="sidebar-brand-text mx-3">Institute Management</div>
+  </a>
+
+  <hr class="sidebar-divider my-0" />
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Links</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/student/semesters}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Semesters</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Account</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/changePassword}">
+      <i class="fas fa-key"></i>
+      <span>Change Password</span></a
+    >
+  </li>
+</ul>
+
+<ul
+  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  id="accordionSidebar"
+  th:fragment="sidebar"
+  th:if="${userRole == 'faculty'}"
+>
+  <a
+    class="sidebar-brand d-flex align-items-center justify-content-center"
+    th:href="@{/}"
+  >
+    <div class="sidebar-brand-text mx-3">Institute Management</div>
+  </a>
+
+  <hr class="sidebar-divider my-0" />
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard}">
+      <i class="fas fa-fw fa-tachometer-alt"></i>
+      <span>Dashboard</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Links</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/faculty/subjects}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Subjects</span></a
+    >
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/faculty/payouts}">
+      <i class="fas fa-fw fa-cog"></i>
+      <span>Payouts</span></a
+    >
+  </li>
+
+  <hr class="sidebar-divider" />
+
+  <div class="sidebar-heading">Account</div>
+
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/dashboard/changePassword}">
+      <i class="fas fa-key"></i>
+      <span>Change Password</span></a
+    >
+  </li>
+</ul>

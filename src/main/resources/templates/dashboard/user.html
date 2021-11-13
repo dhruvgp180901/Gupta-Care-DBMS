@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800" th:text="${user.username}"></h1>
+              <a
+                th:href="@{/dashboard/user/delete/__${user.username}__}"
+                class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
+                >Delete User</a
+              >
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Info</h6>
+              </div>
+              <div class="card-body">
+<div class="wrapper bg-white mt-sm-5">
+    <form th:object=${user} method="POST" enctype="multipart/form-data">
+        <div class="d-flex align-items-start py-3 border-bottom">
+            <div class="avatar">
+            <img th:if="${user.photo}" th:src="@{__${user.photosImagePath}__}" class="avatar-bg" text-align="center" style="
+            background-position: 50% 50%;
+            height: 200px;
+            width: 200px;
+            background-size: cover;
+            border-radius: 50%;
+            margin-left: 650px"/>
+            <img th:unless="${user.photo}" th:src="@{https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png}" class="avatar-bg" text-align="center" style="
+            background-position: 50% 50%;
+            height: 200px;
+            width: 200px;
+            background-size: cover;
+            border-radius: 50%;
+            margin-left: 650px"/>
+            </div>
+            </div>
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-4"> <label for="firstName">First Name</label> <input type="text" th:field="*{firstName}" th:readonly="true" class="bg-light form-control" placeholder="First name"> </div>
+                <div class="col-md-4 pt-md-0 pt-3"> <label for="middleName">Middle Name</label> <input type="text" th:field="*{middleName}" th:readonly="true" class="bg-light form-control" placeholder="Middle name"> </div>
+                <div class="col-md-4 pt-md-0 pt-3"> <label for="lastName">Last Name</label> <input type="text" th:field="*{lastName}" th:readonly="true" class="bg-light form-control" placeholder="Last Name"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="email">Email ID</label> <input type="text" th:field="*{emailID}" th:readonly="true" class="bg-light form-control" placeholder="Email ID"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Phone Number</label> <input type="tel" th:field="*{phone}" th:readonly="true" class="bg-light form-control" placeholder="Phone Number"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="email">Date of Birth</label> <input type="date" th:field="*{birthDate}" th:readonly="true" class="bg-light form-control" placeholder="DOB"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Aadhar Card Number</label> <input type="number" th:field="*{adhaarNumber}" th:readonly="true" class="bg-light form-control" placeholder="Aadhar Number"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-4"> <label for="email">Street</label> <input type="text" th:field="*{street}" th:readonly="true" class="bg-light form-control" placeholder="Street"> </div>
+                <div class="col-md-4 pt-md-0 pt-3"> <label for="phone">City</label> <input type="text"  th:field="*{city}" th:readonly="true" class="bg-light form-control" placeholder="City"> </div>
+                <div class="col-md-4 pt-md-0 pt-3"> <label for="phone">State</label> <input type="text" th:field="*{state}" th:readonly="true" class="bg-light form-control" placeholder="State"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="email">Country</label> <input type="text" th:field="*{country}" th:readonly="true" class="bg-light form-control" placeholder="Country"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Gender</label> <input type="text" th:field="*{gender}" th:readonly="true" class="bg-light form-control" placeholder="Gender"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-12"> <label for="username">Username</label> <input type="text" class="bg-light form-control" th:field="*{username}" th:readonly="true" placeholder="Username"> </div>
+            </div>
+        </div>
+        <div class="py-3 pb-4 border-bottom text-center"> <button type="submit" class="btn btn-primary mr-3">Edit Profile</button> </div>
+
+    </form>
+    </div>
+ 
+          </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

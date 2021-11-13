@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Add Medicine</h1>
+            </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  Medicine creation form
+                </h6>
+              </div>
+              <div class="card-body">
+                <form method="post" th:object="${medicine}">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name"
+                      th:field="*{name}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="company">Company</label>
+                    <input
+                      type="text"
+                      id="company"
+                      class="form-control"
+                      required="required"
+                      placeholder="Company"
+                      th:field="*{company}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <input
+                      type="text"
+                      id="purpose"
+                      class="form-control"
+                      required="required"
+                      placeholder="Purpose"
+                      th:field="*{purpose}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="color">Color</label>
+                    <input
+                      type="text"
+                      id="color"
+                      class="form-control"
+                      required="required"
+                      placeholder="color"
+                      th:field="*{color}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="deliveredDate">Date of Delivery</label>
+                    <input
+                      type="date"
+                      id="deliveredDate"
+                      class="form-control"
+                      required="required"
+                      placeholder="Date of Delivery"
+                      th:field="*{deliveredDate}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="deliveredAmount">Delivery Amount</label>
+                    <input
+                      type="text"
+                      id="deliveredAmount"
+                      class="form-control"
+                      required="required"
+                      placeholder="Delivery Amount"
+                      th:field="*{deliveredAmount}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea
+                      id="name"
+                      class="form-control"
+                      rows="4"
+                      required="required"
+                      placeholder="Description"
+                      th:field="*{description}"
+                    ></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Manage Doctors</h1>
+              <a
+                th:href="@{/dashboard/doctor/add}"
+                class="
+                  d-none d-sm-inline-block
+                  btn btn-sm btn-primary
+                  shadow-sm
+                "
+                >Add Doctor</a
+              >
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  List of all Doctors
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Username</th>
+                        <th>Designation</th>
+                        <th>Specialization</th>
+                        <th>Appointment Charges</th>
+                        <th>Salary</th>
+                        <th>Payouts</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr th:each="doctor: ${doctors}">
+                        <td th:text="${doctor.username}">Username</td>
+                        <td th:text="${doctor.designation}">Designation</td>
+                        <td th:text="${doctor.specialization}">
+                          Specialization
+                        </td>
+                        <td th:text="${doctor.appointmentCost}">
+                          Appointment Charges
+                        </td>
+                        <td th:text="${doctor.salary}">
+                          Salary
+                        </td>
+                        <td>
+                          <a
+                            th:href="${'/dashboard/manage/doctor/payouts/' + doctor.username}"
+                            class="btn-sm btn-primary"
+                          >
+                            <span class="text">View Payouts</span>
+                          </a>
+                        </td>
+                        <td>
+                          <a
+                            th:href="${'/dashboard/manage/doctor/' + doctor.username}"
+                            class="btn-sm btn-primary"
+                          >
+                            <span class="text">Manage</span>
+                          </a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

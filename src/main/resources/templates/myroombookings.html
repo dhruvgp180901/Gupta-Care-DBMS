@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body style="background-color:white">
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="page-content container">
+    <div class="page-header text-blue-d2 mt-5">
+        
+
+        <!-- <div class="page-tools">
+            <div class="action-buttons">
+                <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="Print">
+                    <i class="mr-1 fa fa-print text-primary-m1 text-120 w-2"></i>
+                    Print
+                </a>
+                <a class="btn bg-white btn-light mx-1px text-95" href="#" data-title="PDF">
+                    <i class="mr-1 fa fa-file-pdf-o text-danger-m1 text-120 w-2"></i>
+                    Export
+                </a>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="container px-0">
+        <div class="row mt-4">
+            <div class="col-12 col-lg-10 offset-lg-1">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="text-center text-150">
+                        <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">My Room Bookings</h1>
+
+                            <!-- <span class="text-default-d3">medicine Bill</span> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- .row -->
+
+                <hr class="row brc-default-l1 mx-n1 mb-4" />
+
+                <div class="row">
+                    <div class="col-sm-6">
+                    <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                    </div>
+                </div>
+                    
+                    <table class="table table-striped table-borderless border-0 border-b-2 brc-default-l1 mt-3">
+                        <thead class="bg-none bgc-default-tp1">
+                            <tr class="text-white">
+                                <th class="opacity-2" style="text-align: center;">S.No.</th>
+                                <th style="text-align: center;">Ward</th>
+                                <th style="text-align: center;">Type</th>
+                                <th style="text-align: center;">Num of Beds</th>
+                                <th style="text-align: center;">Start Date</th>
+                                <th style="text-align: center;">End Date</th>
+                                <th style="text-align: center;">Description</th>
+                                <th style="text-align: center;">Amount</th>
+                                <th style="text-align: center;">Status</th>
+                                <th style="text-align: center;">Action</th>
+                                <th style="text-align: center;">Feedback</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-95 text-secondary-d3 text-align-center">
+                            <tr th:each="roombooking, id: *{roombookings}" class="text-align-center">
+                                <td style="padding-top:16px; text-align: center;" th:text="${id.count}">S.No.</td>
+                                <td style="padding-top:16px; text-align: center;" th:text="${rooms[id.index].ward}">Ward</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="${rooms[id.index].type}">Type</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="${rooms[id.index].numberofbeds}">NUm of Beds</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="${roombooking.startDate}">Start Date</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="${roombooking.endDate}">End Date</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="${roombooking.description}">Description</td>
+                                <td style="padding-top:16px;text-align: center;" th:text="'₹' + ' ' + *{rooms[id.index].cost}">Amount</td>
+                                <td style="padding-top:16px;text-align: center;" th:if="${roombooking.status} == 'Confirmed'" th:text="Paid">Status</td>
+                                <td style="padding-top:16px;text-align: center;" th:unless="${roombooking.status} == 'Confirmed'" th:text="Unpaid">Status</td>
+                                <td style="text-align: center;"><a th:href="@{/confirmroom/__${roombooking.bookroomID}__}" class="btn btn-info" style="padding:8px;font-size:15px" role="button"><i class="fa fa-eye"></i> View</a></td>
+                               
+                                <td th:if="${roombooking.status == 'Confirmed' and feedbacks[id.index] == 0}" style="padding-top:12px;">
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                                        <span style="font-size:15px">Submit Feedback</span>
+                                    </button>
+                                    <div id="feedbackModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background:blue;color:white;padding-top:25px;">
+                                                    <h3>Feedback Request</h3>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <h3>Your opinion matters</h3>
+                                                    <h5>Help us improve our services? <strong>Give us your
+                                                            feedback.</strong></h5>
+                                                    <hr>
+                                                    <form method="POST" th:object="${feedback}" th:action="@{/roombookings/__${roombooking.roombookingID}__/feedback}">
+                                                        <label>
+                                                            <p style="font-size:20px;">Your overall experience
+                                                                with us</p>
+                                                        </label>
+                                                        <div class="col-md-12">
+                                                            <span class="star-rating">
+                                                                <input type="radio" name="rating"
+                                                                    required="required" value="1"><i></i>
+                                                                <input type="radio" name="rating"
+                                                                    value="2"><i></i>
+                                                                <input type="radio" name="rating"
+                                                                    value="3"><i></i>
+                                                                <input type="radio" name="rating"
+                                                                    value="4"><i></i>
+                                                                <input type="radio" name="rating"
+                                                                    value="5"><i></i>
+                                                            </span>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                        <br>
+                                                        <label>
+                                                            <p style="font-size:20px;">Complaint:</p>
+                                                        </label><br />
+                                                        <textarea class="form-control" cols="50" name="complaint" rows="5" style="width:100%"></textarea><br>
+                                                        <div class="clear"></div>
+                                                        <label>
+                                                            <p style="font-size:20px;">Suggestion:</p>
+                                                        </label><br />
+                                                        <textarea class="form-control" cols="50" name="suggestion" rows="5" style="width:100%"></textarea><br>
+                                                        <div class="clear"></div>
+                                                        <div class="modal-footer">
+                                                            <button class="col-md-4 btn btn-primary submit-button" type="submit">Send feedback</button>
+                                                            <a href="" class="btn btn-outline-primary" data-dismiss="modal">Cancel</a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                </td>
+                                <td th:if="${roombooking.status == 'Confirmed' and feedbacks[id.index] &gt 0}" style="padding-top:15px;">
+                                    <span th:if="${feedbacks[id.index] &gt 0}" class="fa fa-star checked"></span>
+                                    <span th:if="${feedbacks[id.index] &gt 1}" class="fa fa-star checked"></span>
+                                    <span th:if="${feedbacks[id.index] &gt 2}" class="fa fa-star checked"></span>
+                                    <span th:if="${feedbacks[id.index] &gt 3}" class="fa fa-star checked"></span>
+                                    <span th:if="${feedbacks[id.index] &gt 4}" class="fa fa-star checked"></span>
+                                </td>
+                                <td th:if="*{roombooking.status} == 'pending'" th:text="NA" class="text-center" style="padding-top:15px;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>

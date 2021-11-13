@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head th:replace="header :: header"></head>
+<body>
+    <div th:replace="navbar :: navbar"></div>
+    
+    <div class="container padding-bottom-3x mb-1 mt-5">
+        <!-- Shopping Cart-->
+        <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">My Cart</h1>
+        
+        <div class="table-responsive shopping-cart">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medicine Description</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Cost (per piece)</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Clear Cart</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="order ,id: *{myorders}">
+                        <td>
+                            <div class="product-item">
+                                <div class="product-thumb"><img th:src="@{__${medicines[id.index].photosImagePath}__}" alt="Medicine" style="margin-top:7px"></div>
+                                <div class="product-info">
+                                    <b><h1 class="product-title" th:text="*{medicines[id.index].name}">Name</h1></b><div><spans tyle="display: inline-block"><em>Company: </em></span><span style="display: inline-block" th:text="*{medicines[id.index].color}"> Company</span></div>
+                                        <div><spans tyle="display: inline-block"><em>Purpose: </em></span><span style="display: inline-block" th:text="*{medicines[id.index].purpose}"> Purpose</span></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                          <div>
+                            <span style="display: inline-block"><a th:href="@{mycart/dec/__${order.orderID}__}" class="btn btn-primary" role="button">-</a></span>
+                            <span style="display: inline-block"><p th:field="*{order.amount}" th:text="*{order.amount}" id="amount" style="margin-top:2px;margin-bottom:-2px;margin-left: 2px;margin-right: 2px;">Amount</p></span>
+                            <span style="display: inline-block"><a th:href="@{mycart/inc/__${order.orderID}__}" class="btn btn-primary" role="button">+</a></span>
+                          </div>
+                          </td>
+                      <td class="text-center text-lg text-medium" th:field="*{order.cost}" th:text="'₹' + ' ' + *{order.cost}" id="cost">Cost</td> 
+                      <td class="text-center text-lg text-medium" th:text="'₹' + ' ' + *{amounts[id.index]}" id="amount">Amount</td> 
+                      <td class="text-center"><a th:href="@{mycart/delete/__${order.orderID}__}" role="button" class="btn btn-labeled btn-danger" > <span class="btn-label"><i class="fa fa-trash"></i></span>Trash</a></td>
+                        <!-- <td class="text-center">/<a class="remove-from-cart" href="#" data-toggle="tooltip" title="" data-original-title="Remove item"><i class="fa fa-trash"></i></a></td> -->
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="shopping-cart-footer">
+            <div class="column text-lg" style="font-size: 20px;">Total Amount: <span class="text-medium" th:text="'₹' + ' ' + *{payment}">$289.68</span></div>
+        </div>
+        <div class="shopping-cart-footer">
+            <div class="column"><a class="btn btn-success" th:href="@{/medicines}"><i class="fas fa-arrow-left"></i>&nbsp;Back to Ordering</a></div>
+            <div class="column"><a class="btn btn-success" th:href="@{/confirm/orderMed}">Confirm Order&nbsp;<i class="fas fa-arrow-right"></i></a></div>
+        </div>
+    </div>
+    
+    
+    <div th:replace="footer :: footer"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Add Work</h1>
+            </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                  
+                <h6 class="m-0 font-weight-bold text-primary" th:text='${username}'>
+                  Username
+                </h6>
+              </div>
+              
+              <div class="card-body">
+                <form method="post" th:object="${work}">
+                    <div class="form-group">
+                        <label for="username">Hospital</label>
+                        <input
+                          type="text"
+                          id="hospital"
+                          class="form-control"
+                          required="required"
+                          placeholder="Hospital"
+                          th:field="*{hospital}"
+                        />
+                      </div>
+                    <div class="form-group">
+                    <label for="workRole">Work Role</label>
+                    <input
+                      type="text"
+                      id="workRole"
+                      class="form-control"
+                      required="required"
+                      placeholder="Work Role"
+                      th:field="*{workRole}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="workJoiningDate">Joining Date</label>
+                    <input
+                      type="date"
+                      id="workJoiningDate"
+                      class="form-control"
+                      required="required"
+                      placeholder="Joining Date"
+                      th:field="*{workJoiningDate}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="workLeavingDate">Leaving Date</label>
+                    <input
+                      type="date"
+                      id="workLeavingDate"
+                      class="form-control"
+                      required="required"
+                      placeholder="Leaving Date"
+                      th:field="*{workLeavingDate}"
+                    />
+                    </div>
+                    <div class="form-group">
+                      <label for="workDescription">Work Description</label>
+                      <input
+                        type="text"
+                        id="workDescription"
+                        class="form-control"
+                        required="required"
+                        placeholder="Work Description"
+                        th:field="*{workDescription}"
+                      />
+                    
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

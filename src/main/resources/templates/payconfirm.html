@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div id="contact-sec">
+    <div class="overlay">
+        <div class="container set-pad">
+            <div class="row text-center">
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+                    <h1 data-scroll-reveal="enter from the bottom after 0.1s" class="header-line" >Make Payment</h1>
+                </div>
+            </div>
+            <div class="row set-row-pad"  data-scroll-reveal="enter from the bottom after 0.5s" >
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+
+            <form th:action="@{/}" th:object="${payment}">
+            <div class="form-group">
+                <label for="amount">Amount (in Rs.)</label>
+                <input type="number" th:field="*{amount}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="accountNumber">Account Number</label>
+                <input type="text" th:field="*{accountNumber}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="IFSCcode">IFSC code</label>
+                <input type="text" th:field="*{IFSCcode}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="payDate">Payment Date</label>
+                <input type="text" th:field="*{payDate}" class="form-control" th:readonly="true" /><br/>
+            </div>
+            <div class="form-group">
+                <label for="bankName">Bank Name</label>
+                <input type="text" th:field="*{bankName}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="bankBranch">Bank Branch</label>
+                <input type="text" th:field="*{bankBranch}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Go to Home</button>
+            </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>
+

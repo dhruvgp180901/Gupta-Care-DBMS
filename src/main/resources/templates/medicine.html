@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container">
+    <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">Medicines</h1>
+    <tr th:if="${medicines.empty}">
+       <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">No Medicines are Available currently.</h1>
+    </tr>
+
+    <div class="row product-list dev">
+
+    <tr th:each="medicine : ${medicines}">
+    
+        <div class="col-sm-6 col-md-4 product-item  animation-element slide-top-left">
+            <div class="product-container">
+        <div class="row">
+            <div class="col-md-12"><a class="product-image" href="#"><img th:src="@{__${medicine.photosImagePath}__}"></a></div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="product-price" th:text="${medicine.name}" style="text-align:center;margin-top: -10px;">Name</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+            <div class="col-4 product-price" th:text="${medicine.cost}" style="text-align:left;margin-left: 40px;">Company</div>
+            </div>
+            <div class="col-4 product-price" th:text="${medicine.cost}" style="padding-right: 80px;">Cost</div>
+          </div>
+          <div class="row">
+            <div class="col-8">
+            <div class="col-4 product-price" th:text="${medicine.purpose}" style="text-align:left;margin-left: 40px;">Purpose</div>
+            </div>
+            <div class="col-4 product-price" th:text="${medicine.color}" style="padding-right: 80px;">Color</div>
+            </div>
+            <div class="col-12">
+                <p class="product-description" style="padding-top: 10px; text-align:left;margin-left: 40px;">Lorem ipsum</p>
+            </div>
+                <hr>
+                <div class="text-center">
+                    <a th:href="@{/medicine/__${medicine.medicineID}__}" role="button" class="btn btn-primary" style="background-color: chocolate;">Add to Cart</a>
+        </div>
+    </div>
+</div>
+</div>
+</tr>
+</div>
+</div>
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+
+<div align="center">
+    <h1>Tests</h1>    
+    <tr th:if="${medicines.empty}">
+        <td colspan="2"> No Medicines Available </td>
+    </tr>
+    <tr th:each="medicine : ${medicines}">
+        <td><span th:text="${medicine.name}"> Title </span></td>
+        <td><span th:text="${medicine.color}"> Color </span></td>
+        <td><span th:text="${medicine.purpose}"> Author </span></td>
+        <td><span th:text="${medicine.description}"> Body </span></td>
+        <td><span th:text="${medicine.cost}"> Cost </span></td>
+            
+        
+        <form th:action="@{/medicine/__${medicine.medicineID}__}" method="GET">
+            <div>
+                <button type="submit">Order</button> 
+            </div>
+        </form>
+    </tr>
+</div>
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html> -->

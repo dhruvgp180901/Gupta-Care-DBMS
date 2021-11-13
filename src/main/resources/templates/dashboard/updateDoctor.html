@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800" th:text="${doctor.username}"></h1>
+              <a
+                th:href="@{/dashboard/doctor/delete/__${doctor.username}__}"
+                class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
+                >Delete Doctor</a
+              >
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Info</h6>
+              </div>
+              <div class="card-body">
+<div class="wrapper bg-white">
+    <form th:object=${doctor} method="POST">
+        
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-12"> <label for="username">Username</label> <input type="text" class="bg-light form-control" th:field="*{username}" th:readonly="true" placeholder="Username"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="designation">Designation</label> <input type="text" th:field="*{designation}" required="required" class="bg-light form-control" placeholder="Designation"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="specialization">Specialization</label> <input type="text" th:field="*{specialization}" required="required" class="bg-light form-control" placeholder="Specialization"> </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-md-12"> <label for="appointmentCost">Appointment Charges</label> <input type="text" th:field="*{appointmentCost}" required="required" class="bg-light form-control" placeholder="Appointment Charges"> </div>
+                <div class="col-md-6"> <label for="salary">Salary</label> <input type="text" th:field="*{salary}" required="required" class="bg-light form-control" placeholder="Salary"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="board10th">Name of 10th Board</label> <input type="text" th:field="*{board10th}" required="required" class="bg-light form-control" placeholder="Name of 10th Board"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="percentage10th">Percentage (10th Class)</label> <input type="number" th:field="*{percentage10th}" required="required" class="bg-light form-control" placeholder="Percentage (10th Class)"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="board12th">Name of 12th Board</label> <input type="text" th:field="*{board12th}" required="required" class="bg-light form-control" placeholder="Name of 12th Board"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="percentage12th">Percentage (12th Class)</label> <input type="number" th:field="*{percentage12th}" required="required" class="bg-light form-control" placeholder="Percentage (12th Class)"> </div>
+            </div>
+
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="collegeGrad">Name of Grad college</label> <input type="text" th:field="*{collegeGrad}" required="required" class="bg-light form-control" placeholder="Name of Grad college"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="percentageGrad">Percentage (Grad)</label> <input type="number" th:field="*{percentageGrad}" required="required" class="bg-light form-control" placeholder="Percentage (Grad)"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="collegePGrad">Name of Post Grad college</label> <input type="text" th:field="*{collegePGrad}" required="required" class="bg-light form-control" placeholder="Name of Post Grad college"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="percentagePGrad">Percentage (PostGrad)</label> <input type="number" th:field="*{percentagePGrad}" required="required" class="bg-light form-control" placeholder="Percentage (Post Grad)"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="parentName">Name of Father</label> <input type="text" th:field="*{parentName}" required="required" class="bg-light form-control" placeholder="Name of Father"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="parentOccupation">Occupation of Father</label> <input type="text" th:field="*{parentOccupation}" required="required" class="bg-light form-control" placeholder="Occupation of Parent"> </div>
+            </div>
+        </div>
+        <div class="py-3 pb-4 border-bottom text-center"> <button type="submit" class="btn btn-primary mr-3">Save Changes</button> </div>
+
+    </form>
+    </div>
+ 
+          </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

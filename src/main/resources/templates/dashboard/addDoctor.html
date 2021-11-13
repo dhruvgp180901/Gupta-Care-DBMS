@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Add Doctor</h1>
+            </div>
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  Doctor creation form
+                </h6>
+              </div>
+              
+              <div class="card-body">
+                <form method="post" th:object="${doctor}">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input
+                          type="text"
+                          id="username"
+                          class="form-control"
+                          required="required"
+                          placeholder="Username"
+                          th:field="*{username}"
+                        />
+                      </div>
+                    <div class="form-group">
+                    <label for="specialization">Specialization</label>
+                    <input
+                      type="text"
+                      id="specialization"
+                      class="form-control"
+                      required="required"
+                      placeholder="Specialization"
+                      th:field="*{specialization}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="designation">Designation</label>
+                    <input
+                      type="text"
+                      id="designation"
+                      class="form-control"
+                      required="required"
+                      placeholder="Designation"
+                      th:field="*{designation}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="appointmentCost">Appointment Charges</label>
+                    <input
+                      type="text"
+                      id="appointmentCost"
+                      class="form-control"
+                      required="required"
+                      placeholder="Appointment Charges"
+                      th:field="*{appointmentCost}"
+                    />
+                    <div class="form-group">
+                      <label for="salary">Salary</label>
+                      <input
+                        type="text"
+                        id="salary"
+                        class="form-control"
+                        required="required"
+                        placeholder="Salary"
+                        th:field="*{salary}"
+                      />
+                    
+                  <div class="form-group">
+                    <label for="collegeGrad">Name of Grad College</label>
+                    <input
+                      type="text"
+                      id="collegeGrad"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name of Grad College"
+                      th:field="*{collegeGrad}"
+                    />
+              </div>
+                  <div class="form-group">
+                    <label for="percentageGrad">Percentage (Grad)</label>
+                    <input
+                      type="number"
+                      id="percentageGrad"
+                      class="form-control"
+                      required="required"
+                      placeholder="Percentage (Grad)"
+                      th:field="*{percentageGrad}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="collegePGrad">Name of Post Grad College</label>
+                    <input
+                      type="text"
+                      id="collegePGrad"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name of Post Grad College"
+                      th:field="*{collegePGrad}"
+                    />
+              </div>
+                  <div class="form-group">
+                    <label for="percentagePGrad">Percentage (Post Grad)</label>
+                    <input
+                      type="number"
+                      id="percentagePGrad"
+                      class="form-control"
+                      required="required"
+                      placeholder="Percentage (Post Grad)"
+                      th:field="*{percentagePGrad}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="board10th">Name of 10th Board</label>
+                    <input
+                      type="text"
+                      id="board10th"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name of 10th Board"
+                      th:field="*{board10th}"
+                    />
+              </div>
+                  <div class="form-group">
+                    <label for="percentage10th">Percentage (10th)</label>
+                    <input
+                      type="number"
+                      id="percentage10th"
+                      class="form-control"
+                      required="required"
+                      placeholder="Percentage (10th)"
+                      th:field="*{percentage10th}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="board12th">Name of 12th Board</label>
+                    <input
+                      type="text"
+                      id="board12th"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name of 12th Board"
+                      th:field="*{board12th}"
+                    />
+              </div>
+                  <div class="form-group">
+                    <label for="percentage12th">Percentage (12th)</label>
+                    <input
+                      type="number"
+                      id="percentage12th"
+                      class="form-control"
+                      required="required"
+                      placeholder="Percentage (12th)"
+                      th:field="*{percentage12th}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="parentName">Name of Father</label>
+                    <input
+                      type="text"
+                      id="parentName"
+                      class="form-control"
+                      required="required"
+                      placeholder="Name of Father"
+                      th:field="*{parentName}"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="parentOccupation">Father Occupation</label>
+                    <input
+                      type="text"
+                      id="parentOccupation"
+                      class="form-control"
+                      required="required"
+                      placeholder="Father Occupation"
+                      th:field="*{parentOccupation}"
+                    />
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800" th:text="${medicine.name}"></h1>
+              <a
+                th:href="@{/dashboard/medicine/delete/__${medicine.medicineID}__}"
+                class="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"
+                >Delete Medicine</a
+              >
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Info</h6>
+              </div>
+              <div class="card-body">
+<div class="wrapper bg-white mt-sm-5" >
+    <form th:object=${medicine} method="POST" enctype="multipart/form-data">
+        <div class="d-flex align-items-start py-3 border-bottom">
+            <div class="avatar">
+            <img th:if="${medicine.photo}" th:src="@{__${medicine.photosImagePath}__}" class="avatar-bg" text-align="center" style="
+            background-position: 50% 50%;
+            height: 200px;
+            width: 200px;
+            background-size: cover;
+            border-radius: 50%;
+            margin-left: 650px"/>
+            <img th:unless="${medicine.photo}" th:src="@{https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png}" class="avatar-bg" text-align="center" style="
+            background-position: 50% 50%;
+            height: 200px;
+            width: 200px;
+            background-size: cover;
+            border-radius: 50%;
+            margin-left: 650px;"/>
+            </div>
+            <div class="pl-sm-4 pl-2 ms-3 mt-5" id="img-section"> <b>Profile Photo</b>
+              <p>Accepted file type .png. Less than 1MB</p> 
+              <input type="file" name = "file" accept="image/png image/jpg image/jpeg">
+          </div>
+
+          </div>
+        
+        <div class="py-2">
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="name">Name</label> <input type="text" th:field="*{name}" required="required" class="bg-light form-control" placeholder="Name"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="company">Company</label> <input type="text" th:field="*{company}" required="required" class="bg-light form-control" placeholder="Company"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="purpose">Purpose</label> <input type="text" th:field="*{purpose}" required="required" class="bg-light form-control" placeholder="Purpose"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="color">Color</label> <input type="tel" th:field="*{color}" required="required" class="bg-light form-control" placeholder="Color"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-6"> <label for="deliveredDate">Date of Delivery</label> <input type="date" th:field="*{deliveredDate}" required="required" class="bg-light form-control" placeholder="Delivery Date"> </div>
+                <div class="col-md-6 pt-md-0 pt-3"> <label for="number">Delivery Amount</label> <input type="number" th:field="*{deliveredAmount}" required="required" class="bg-light form-control" placeholder="Delivery Amount"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-12"> <label for="description">Description</label> <input type="text" th:field="*{description}" required="required" class="bg-light form-control" placeholder="Description"> </div>
+            </div>
+            <div class="row py-2">
+                <div class="col-md-12"> <label for="cost">Cost (per piece)</label> <input type="text" class="bg-light form-control" th:field="*{cost}" required="required" placeholder="Cost (per piece)"> </div>
+            </div>
+        </div>
+        <div class="py-3 pb-4 border-bottom text-center"> <button type="submit" class="btn btn-primary mr-3">Save Changes</button> </div>
+
+    </form>
+    </div>
+ 
+          </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

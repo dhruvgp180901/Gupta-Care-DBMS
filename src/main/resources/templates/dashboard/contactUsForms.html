@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Manage Contact Us Forms</h1>
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  List of all Queries
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Subject</th>
+                        <th>Query</th>
+                        <th>Date</th>
+                        <th>Email ID</th>
+                        <th>Phone Number</th>
+                        <th>Reply</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr th:each="contactUsForm, id: *{forms}">
+                        <td th:text="${contactUsForm.name}">
+                          Name
+                        </td>
+                        <td th:text="${contactUsForm.subject}">
+                          Subject
+                        </td>
+                        <td th:text="${contactUsForm.query}">Query</td>
+                        <td th:text="${contactUsForm.date}">Date</td>
+                        <td th:text="${contactUsForm.emailID}">Email ID</td>
+                        <td th:text="${contactUsForm.phoneNumber}">
+                          Phone Number</td>
+                        </td>
+                        <td th:if="${replies[id.index] == 0}" style="padding-top:12px;">
+                          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
+                              <span style="font-size:15px">Submit Reply</span>
+                          </button>
+                          <div id="feedbackModal" class="modal fade" role="dialog">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header" style="background:blue;color:white;padding-top:25px;">
+                                          <h3>Reply Request</h3>
+                                      </div>
+                                      <div class="modal-body text-center">
+                                          <h3>Your help matters</h3>
+                                          <h5>Help us improve our services? <strong>Give your
+                                                  reply.</strong></h5>
+                                          <hr>
+                                          <form method="POST" th:object="${contactus}" th:action="@{/queries/__${contactUsForm.queryID}__/reply}">
+                                              <label>
+                                                  <p style="font-size:20px;">Your reply for this query</p>
+                                              </label>
+                                              
+                                              <div class="clear"></div>
+                                              <br>
+                                              <label>
+                                                  <p style="font-size:20px;">Reply:</p>
+                                              </label><br />
+                                              <textarea class="form-control" cols="50" name="replyGiven" rows="5" style="width:100%"></textarea><br>
+                                              <div class="clear"></div>
+                                              
+                                              <div class="modal-footer">
+                                                  <button class="col-md-4 btn btn-primary submit-button" type="submit">Send Reply</button>
+                                                  <a href="" class="btn btn-outline-primary" data-dismiss="modal">Cancel</a>
+                                              </div>
+                                          </form>
+                                      </div>
+                      </td>
+                      <td th:if="*{replies[id.index]} == 1" th:text="${contactUsForm.replyGiven}" >Reply</td>
+                        <td>  
+                        <a
+                            th:href="${'/dashboard/delete/contactUsForm/' + contactUsForm.queryID}"
+                            class="btn btn-danger"
+                            role="button"
+                            ><i class="fa fa-trash"></i>Delete</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

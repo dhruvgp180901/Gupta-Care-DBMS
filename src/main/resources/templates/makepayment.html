@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head th:fragment="header">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <title>Hospital Management</title>
+    
+        <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+        <link rel="stylesheet" th:href="@{/assets/fonts/fontawesome-all.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/fonts/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/fonts/fontawesome5-overrides.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Dark-NavBar.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Pretty-Footer.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Single-Page-Contact-Us-Form.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Pretty-Registration-Form.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Login-Form-Clean.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Login-Form-Dark.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Registration-Form-with-Photo.css}">
+        <link rel="stylesheet" th:href="@{/assets/fonts/font-awesome.min.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Model-Cards-1.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Cart.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Profile-edit.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Payment.css}">
+        <link rel="stylesheet" th:href="@{/assets/css/Animated-Pretty-Product-List-v12.css}">
+    
+        <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+        <!-- <link href="/js/style.css" rel="stylesheet" type="text/css" />
+        <link href="/js/bootstrap.css" rel="stylesheet" />
+        <link href="/js/font-awesome.min.css" rel="stylesheet" />
+        <link href="/js/flexslider.css" rel="stylesheet" /> -->
+        <!-- <link href="../css/style.css" rel="stylesheet" /> -->
+        <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css' /> -->
+    
+        <!--  Template Js  -->
+        <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/js/jquery-1.10.2.js"></script>
+        <script src="/js/bootstrap.js"></script>
+        <script src="/js/jquery.flexslider.js"></script>
+        <script src="/js/scrollReveal.js"></script>
+        <script src="/js/jquery.easing.min.js"></script>
+        <script src="/js/custom.js"></script>
+        <script src="/js/main.js"></script>
+    
+        <!--  Izitoast  -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA==" crossorigin="anonymous"></script>
+    </head>
+    
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container bg-light d-md-flex align-items-center">
+    <div class="card box1 shadow-sm p-md-5 p-md-5 p-4">
+        <div class="fw-bolder mb-4"></span><span class="ps-1">Appointment</span></div>
+        <div class="d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between text"> <span class="">Cost</span> <span class="fas fa-rupee-sign"><span class="ps-1" th:text="${cost}">Cost</span></span> </div>
+            <div class="d-flex align-items-center justify-content-between text"> <span class="">Tax</span> <span class="ps-1">10%</span></span> </div>
+            <div class="d-flex align-items-center justify-content-between text mb-4"> <span>Amount</span> <span class="fas fa-rupee-sign"><span class="ps-1" th:text="${amount}">Amount</span></span> </div>
+            <div class="border-bottom mb-4"></div>
+            <div class="d-flex flex-column mb-4"> <span class="far fa-file-alt text"><span class="ps-2">Invoice ID:</span></span> <span class="ps-3">SN8478042099</span> </div>
+            <div class="d-flex flex-column mb-5"> <span class="far fa-calendar-alt text"><span class="ps-2">Payment Date</span></span> <span class="ps-3" th:text="${date}">Date</span> </div>
+            <div class="d-flex align-items-center justify-content-between text mt-5">
+                <div class="d-flex flex-column text"> <span>Customer Support:</span> <span>online chat 24/7</span> </div>
+                <div class="btn btn-primary rounded-circle"><span class="fas fa-comment-alt"></span></div>
+            </div> 
+         </div>
+    </div>
+    <div class="card box2 shadow-sm">
+        <div class="d-flex align-items-center justify-content-center p-md-5 p-4"> <span class="h5 fw-bold m-0">Payment</span>
+            <div class="btn btn-primary bar"><span class="fas fa-bars"></span></div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between" style="margin-left: 10px;"> <span>Credit card</span>
+            <div class="icons"style="margin-right: 10px;"> <img src="https://i.imgur.com/2ISgYja.png" width="30"> <img src="https://i.imgur.com/W1vtnOV.png" width="30"> <img src="https://i.imgur.com/35tC99g.png" width="30"> <img src="https://i.imgur.com/2ISgYja.png" width="30"> </div>
+        </div>
+        <hr>
+
+         <ul class="nav nav-tabs mb-3 px-md-4 px-2">
+            <li class="nav-item"> <a class="nav-link px-2 active" aria-current="page" href="#">Credit Card</a> </li>
+            <li class="nav-item"> <a class="nav-link px-2" href="#">Mobile Payment</a> </li>
+            <li class="nav-item ms-auto"> <a class="nav-link px-2" href="#">+ More</a> </li>
+        </ul> 
+        <div class="px-md-5 px-4 mb-4 d-flex align-items-center">
+            <div class="btn btn-success me-4"><span class="fas fa-plus"></span></div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group"> <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked> <label class="btn btn-outline-primary" for="btnradio1"><span class="pe-1">+</span>5949</label> <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off"> <label class="btn btn-outline-primary" for="btnradio2"><span class="lpe-1">+</span>3894</label> </div>
+        </div> 
+        <form method="post" th:object="${payment}" th:action="@{/payment/__${id}__}" style="margin-top:50px">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="amount">Amount (in Rs.)</label>
+                        <input type="number" th:field="*{amount}" th:readonly="true" class="form-control"/><br/>
+                    </div> 
+                     <div class="d-flex flex-column px-md-5 px-4 mb-4"> <span>Credit Card</span>
+                        <div class="inputWithIcon"> <input class="form-control" type="text" th:field="*{accountNumber}" value="5136 1845 5468 3894"> <span class=""> <img src="https://www.freepnglogos.com/uploads/mastercard-png/mastercard-logo-logok-15.png" alt=""></span> </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column ps-md-5 px-md-0 px-4 mb-4"> <span>Expiration<span class="ps-1">Date</span></span>
+                        <div class="inputWithIcon"> <input type="text" class="form-control" th:field="*{IFSCcode}" value="05/20"> <span class="fas fa-calendar-alt"></span> </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex flex-column pe-md-5 px-md-0 px-4 mb-4"> <span>Code CVV</span>
+                        <div class="inputWithIcon"> <input type="password" class="form-control" value="123"> <span class="fas fa-lock"></span> </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-column px-md-5 px-4 mb-4"> <span>Name</span>
+                        <div class="inputWithIcon"> <input class="form-control text-uppercase" type="text" value="valdimir berezovkiy"> <span class="far fa-user"></span> </div>
+                    </div>
+                </div> 
+                <div class="col-12 px-md-5 px-4 mt-3">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Make Payment</button> 
+
+                     <div class="btn btn-primary w-100" input type="submit">Make Payment</div> 
+                 </div>
+            </div>
+        </form>
+    </div>
+</div> 
+
+<!-- <div id="contact-sec">
+    <div class="overlay">
+        <div class="container set-pad">
+            <div class="row text-center">
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+                    <h1 data-scroll-reveal="enter from the bottom after 0.1s" class="header-line" >Make Payment</h1>
+                </div>
+            </div>
+            <div class="row set-row-pad"  data-scroll-reveal="enter from the bottom after 0.5s" >
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+
+            <form th:action="@{/payment/__${id}__}" th:object="${payment}" method="POST">
+            <div class="form-group">
+                <label for="amount">Amount (in Rs.)</label>
+                <input type="number" th:field="*{amount}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="accountNumber">Account Number</label>
+                <input type="text" th:field="*{accountNumber}" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="IFSCcode">IFSC code</label>
+                <input type="text" th:field="*{IFSCcode}" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="payDate">Payment Date</label>
+                <input type="text" th:field="*{payDate}" class="form-control" th:readonly="true" /><br/>
+            </div>
+            <div class="form-group">
+                <label for="bankName">Bank Name</label>
+                <input type="text" th:field="*{bankName}" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="bankBranch">Bank Branch</label>
+                <input type="text" th:field="*{bankBranch}" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="PIN">PIN</label>
+                <input type="number" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Make Payment</button>
+            </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>
+

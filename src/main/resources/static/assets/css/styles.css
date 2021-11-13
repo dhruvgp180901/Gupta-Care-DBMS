@@ -1,0 +1,32 @@
+.btn-label {
+	position: relative;
+	left: -12px;
+	display: inline-block;
+	padding: 2px 5px;
+	background: rgba(0, 0, 0, 0.15);
+	border-radius: 2px 0 0 2px;
+}
+
+.btn-labeled {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.btn {
+	margin-bottom: 5px;
+}
+
+.map-container-6{
+	overflow:hidden;
+	padding-bottom:56.25%;
+	position:relative;
+	height:0;
+	}
+
+.map-container-6 iframe{
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+	position:absolute;
+	}

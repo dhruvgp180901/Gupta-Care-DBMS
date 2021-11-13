@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="dashboard/layouts/header :: header"></head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+        <div class="container-fluid">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Admin Dashboard</h1>
+          </div>
+
+          <div class="row">
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Users</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <a th:href="@{/dashboard/manage/users}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Doctors</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <a th:href="@{/dashboard/manage/doctors}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Medicines</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            <a th:href="@{/dashboard/manage/medicines}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Rooms</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">
+                        <a th:href="@{/dashboard/manage/rooms}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tests</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">
+                      <a th:href="@{/dashboard/manage/tests}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Appointments</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">
+                    <a th:href="@{/dashboard/manage/appointments}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Medicine Orders</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <a th:href="@{/dashboard/manage/medicineOrders}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Room Bookings</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <a th:href="@{/dashboard/manage/roomBookings}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Test Bookings</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">
+              <a th:href="@{/dashboard/manage/testBookings}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Feedbacks</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <a th:href="@{/dashboard/manage/feedbacks}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Contact Us Forms</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                  <a th:href="@{/dashboard/manage/contactUsForms}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">Manage</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+    </div>
+    <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+
+  </div>
+
+  <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+  <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+  <script th:replace="toast :: toast"></script>
+
+  <!-- Page level plugins -->
+  <script src="/dashboard/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="/dashboard/js/demo/chart-area-demo.js"></script>
+  <script src="/dashboard/js/demo/chart-pie-demo.js"></script>
+</body>
+
+</html>

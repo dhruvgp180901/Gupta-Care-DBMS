@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+<div id="contact-sec">
+    <div class="overlay">
+        <div class="container set-pad">
+            <div class="row text-center">
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
+                    <h1 data-scroll-reveal="enter from the bottom after 0.1s" class="header-line" >Book an Appointment</h1>
+                </div>
+
+            </div>
+            <div class="row set-row-pad"  data-scroll-reveal="enter from the bottom after 0.5s" >
+                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+            <form th:object="${application}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="applicantName">Full Name</label>
+                <input type="text" th:field="*{applicantName}" class="form-control" required="required"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="applicantPhoneNumber">Contact Number</label>
+                <input type="number" th:field="*{applicantPhoneNumber}" class="form-control" required="required"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="applicantEmailID">Date</label>
+                <input type="email" th:field="*{applicantEmailID}" class="form-control" required="required"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="applicationDate">Date</label>
+                <input type="date" th:field="*{applicationDate}" th:readonly="true" class="form-control"/><br/>
+            </div>
+            <div class="form-group">
+                <label for="specialization">Specialization</label>
+                <input type="text" th:field="*{specialization}" class="form-control" required="required"/><br/>
+            </div>
+            <input type="file" name="file"/> Add Resume<br />
+            <div class="form-group">
+                <button type="submit" class="btn btn-info btn-block btn-lg">Confirm Appointment</button>
+            </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>
+
