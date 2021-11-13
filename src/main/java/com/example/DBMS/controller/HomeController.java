@@ -59,7 +59,7 @@ public class HomeController {
 		model.addAttribute("contactUs", contactUs);
 
 		// System.out.println(session.getAttribute("loggedUser").toString());
-		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		// model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
 		
 		return "welcome";
 	}
