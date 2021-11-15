@@ -67,6 +67,8 @@ public class AdminController {
     @Autowired
     private UserDAO userDAO;
     @Autowired
+    private DoctorApplicantDAO applicantDAO;
+    @Autowired
     private PayoutDAO payoutDAO;
     @Autowired
     private WorkDAO workDAO;
@@ -92,17 +94,62 @@ public class AdminController {
     private TestDAO testDAO;
     @Autowired
     private TestbookingDAO testbookingDAO;
+    @Autowired
+    private ToastService toastService;
 
     @GetMapping("/dashboard")
-    public String adminDashboard(Model model, HttpSession session) {
+    public String adminDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
-        model.addAttribute("username", authenticateService.getCurrentUser(session));
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String username = authenticateService.getCurrentUser(session);
+        User user = userDAO.findByUsername(username);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+        System.out.println(username);
+
+        
+            model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
+        if(!(username.equals("admin")))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+			return "redirect:/badAuthorize";
+		}
 
         return "dashboard/index";
+        
+		
+
+        // model.addAttribute("username", authenticateService.getCurrentUser(session));
+        
     }
 
     @GetMapping("/dashboard/manage/users")
-    public String usersDashboard(Model model, HttpSession session) {
+    public String usersDashboard(Model model, HttpSession session,RedirectAttributes redirectAttributes) {
+
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String username = authenticateService.getCurrentUser(session);
+        User user = userDAO.findByUsername(username);
+        // String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(user.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         model.addAttribute("username", authenticateService.getCurrentUser(session));
 
@@ -113,17 +160,39 @@ public class AdminController {
         for (int i = 0; i < users.size(); i++) {
             System.out.println(users.get(0));
         }
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
         return "dashboard/users";
     }
 
     @GetMapping("/dashboard/manage/user/{username}")
-    public String userDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String userDashboard(@PathVariable("username") String username, Model model, HttpSession session,RedirectAttributes redirectAttributes) {
 
         // model.addAttribute("username", authenticateService.getCurrentUser(session));
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		// if(!authenticateService.isAuthenticated(session))
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+		// 	return "redirect:/login";
+		// }
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         User user = userDAO.findByUsername(username);
 
         model.addAttribute("user", user);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/user";
     }
@@ -135,11 +204,30 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/user/edit/{username}")
-    public String userEditDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String userEditDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		// if(!authenticateService.isAuthenticated(session))
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+		// 	return "redirect:/login";
+		// }
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         User user = userDAO.findByUsername(username);
 
         model.addAttribute("user", user);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/updateUser";
     }
@@ -174,9 +262,25 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/user/delete/{username}")
-    public String userDeleteDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String userDeleteDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
         // model.addAttribute("username", authenticateService.getCurrentUser(session));
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         User user = userDAO.findByUsername(username);
 
@@ -184,16 +288,38 @@ public class AdminController {
 
         userDAO.delete(username);
         System.out.println(user);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/users";
     }
 
     @GetMapping("/dashboard/user/add")
-    public String userAddDashboard(Model model, HttpSession session) {
+    public String userAddDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         User user = new User();
 
         model.addAttribute("user", user);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addUser";
     }
@@ -208,7 +334,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/doctors")
-    public String doctorsDashboard(Model model, HttpSession session) {
+    public String doctorsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Doctor> doctors = doctorDAO.allDoctors();
 
@@ -217,11 +359,30 @@ public class AdminController {
         for (int i = 0; i < doctors.size(); i++) {
             System.out.println(doctors.get(0));
         }
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
         return "dashboard/doctors";
     }
 
     @GetMapping("/dashboard/manage/doctor/{username}")
-    public String doctorDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Doctor doctor = doctorDAO.findByDoctorname(username);
 
@@ -231,6 +392,10 @@ public class AdminController {
         model.addAttribute("username", username);
         model.addAttribute("doctor", doctor);
         model.addAttribute("works", works);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/doctor";
     }
@@ -242,11 +407,31 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/doctor/edit/{username}")
-    public String doctorEditDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorEditDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Doctor doctor = doctorDAO.findByDoctorname(username);
 
         model.addAttribute("doctor", doctor);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/updateDoctor";
     }
@@ -264,19 +449,55 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/doctor/delete/{username}")
-    public String doctorDeleteDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorDeleteDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         workDAO.delete(username);
         payoutDAO.delete(username);
         
         doctorDAO.delete(username);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
 
         return "redirect:/dashboard/manage/doctors";
     }
 
     @GetMapping("/dashboard/manage/doctor/payouts/{username}")
-    public String doctorPayoutDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorPayoutDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Payout> payouts = payoutDAO.findByUsername(username);
 
@@ -284,15 +505,39 @@ public class AdminController {
 
         model.addAttribute("username", username);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "dashboard/payouts";
     }
 
     @GetMapping("/dashboard/doctor/{username}/work/add")
-    public String doctorWorkAddDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorWorkAddDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Work work = new Work();
         model.addAttribute("work", work);
         model.addAttribute("username", username);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addWork";
     }
@@ -308,7 +553,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/delete/doctor/work/{id}")
-    public String doctorWorkDeleteDashboard(@PathVariable("id") int workid, Model model, HttpSession session) {
+    public String doctorWorkDeleteDashboard(@PathVariable("id") int workid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Work work = workDAO.findByID(workid);
 
@@ -316,28 +577,70 @@ public class AdminController {
 
         workDAO.deleteByID(workid);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "redirect:/dashboard/manage/doctor/" + username;
     }
 
     @GetMapping("/dashboard/delete/payout/{id}")
-    public String doctorPayoutDeleteDashboard(@PathVariable("id") int payoutid, Model model, HttpSession session) {
+    public String doctorPayoutDeleteDashboard(@PathVariable("id") int payoutid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Payout payout = payoutDAO.findByID(payoutid);
 
         String username = payout.getUsername();
 
         payoutDAO.deleteByID(payoutid);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/doctor/payouts/" + username;
     }
 
     @GetMapping("/dashboard/{username}/payout/add")
-    public String doctorPayoutAddDashboard(@PathVariable("username") String username, Model model, HttpSession session) {
+    public String doctorPayoutAddDashboard(@PathVariable("username") String username, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Payout payout = new Payout();
         model.addAttribute("payout", payout);
 
         model.addAttribute("username", username);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addPayout";
     }
@@ -353,11 +656,30 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/doctor/add")
-    public String doctorAddDashboard(Model model, HttpSession session) {
+    public String doctorAddDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Doctor doctor = new Doctor();
 
         model.addAttribute("doctor", doctor);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addDoctor";
     }
@@ -371,7 +693,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/testBookings")
-    public String testBookingsDashboard(Model model, HttpSession session) {
+    public String testBookingsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Testbooking> testbookings = testbookingDAO.alltestbookings();
 
@@ -389,20 +727,58 @@ public class AdminController {
         }
 
         model.addAttribute("costs", costs);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/testBookings";
     }
 
     @GetMapping("/dashboard/delete/testbooking/{id}")
-    public String testBookingDeleteDashboard(@PathVariable("id") int testbookingID, Model model, HttpSession session) {
+    public String testBookingDeleteDashboard(@PathVariable("id") int testbookingID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+        
         testbookingDAO.delete(testbookingID);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/testBookings";
     }
 
     @GetMapping("/dashboard/manage/roomBookings")
-    public String roomBookingsDashboard(Model model, HttpSession session) {
+    public String roomBookingsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Bookroom> roombookings = bookroomDAO.allbookrooms();
 
@@ -420,20 +796,58 @@ public class AdminController {
 
         model.addAttribute("roombookings", roombookings);
         model.addAttribute("rooms", rooms);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/roomBookings";
     }
 
     @GetMapping("/dashboard/delete/roombooking/{id}")
-    public String roomBookingDeleteDashboard(@PathVariable("id") int roombookingID, Model model, HttpSession session) {
+    public String roomBookingDeleteDashboard(@PathVariable("id") int roombookingID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         bookroomDAO.delete(roombookingID);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/roomBookings";
     }
 
     @GetMapping("/dashboard/manage/appointments")
-    public String appointmentsDashboard(Model model, HttpSession session) {
+    public String appointmentsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Appointment> appointments = appointmentDAO.allappointments();
 
@@ -448,20 +862,58 @@ public class AdminController {
         }
         model.addAttribute("costs", costs);
         model.addAttribute("appointments", appointments);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/appointments";
     }
 
     @GetMapping("/dashboard/delete/appointment/{id}")
-    public String appointmentDeleteDashboard(@PathVariable("id") int appointmentID, Model model, HttpSession session) {
+    public String appointmentDeleteDashboard(@PathVariable("id") int appointmentID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         appointmentDAO.delete(appointmentID);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/appointments";
     }
 
     @GetMapping("/dashboard/manage/medicines")
-    public String medicinesDashboard(Model model, HttpSession session) {
+    public String medicinesDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Medicine> medicines = medicineDAO.allmedicines();
 
@@ -471,15 +923,39 @@ public class AdminController {
             System.out.println(medicines.get(i));
         }
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "dashboard/medicines";
     }
 
     @GetMapping("/dashboard/manage/medicine/{id}")
-    public String medicineDashboard(@PathVariable("id") Integer medicineID, Model model, HttpSession session) {
+    public String medicineDashboard(@PathVariable("id") Integer medicineID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Medicine medicine = medicineDAO.findByID(medicineID);
 
         model.addAttribute("medicine", medicine);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/medicine";
     }
@@ -491,11 +967,31 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/medicine/edit/{id}")
-    public String medicineUpdateDashboard(@PathVariable("id") Integer medicineID, Model model, HttpSession session) {
+    public String medicineUpdateDashboard(@PathVariable("id") Integer medicineID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Medicine medicine = medicineDAO.findByID(medicineID);
 
         model.addAttribute("medicine", medicine);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/updateMedicine";
     }
@@ -531,19 +1027,59 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/medicine/delete/{id}")
-    public String medicineDeleteDashboard(@PathVariable("id") int medicineID, Model model, HttpSession session) {
+    public String medicineDeleteDashboard(@PathVariable("id") int medicineID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         medicineDAO.delete(medicineID);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/medicines";
     }
 
     @GetMapping("/dashboard/medicine/add")
-    public String medicineAddDashboard(Model model, HttpSession session) {
+    public String medicineAddDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Medicine medicine = new Medicine();
 
         model.addAttribute("medicine", medicine);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addMedicine";
     }
@@ -557,7 +1093,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/tests")
-    public String testsDashboard(Model model, HttpSession session) {
+    public String testsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Test> tests = testDAO.alltests();
 
@@ -566,22 +1118,66 @@ public class AdminController {
         for (int i = 0; i < tests.size(); i++) {
             System.out.println(tests.get(0));
         }
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
         return "dashboard/tests";
     }
 
     @GetMapping("/dashboard/manage/test/{id}")
-    public String testDashboard(@PathVariable("id") Integer testid, Model model, HttpSession session) {
+    public String testDashboard(@PathVariable("id") Integer testid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Test test = testDAO.findByID(testid);
         model.addAttribute("test", test);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/test";
     }
 
     @GetMapping("/dashboard/test/delete/{id}")
-    public String testDeleteDashboard(@PathVariable("id") int testID, Model model, HttpSession session) {
+    public String testDeleteDashboard(@PathVariable("id") int testID, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         testDAO.delete(testID);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/tests";
     }
@@ -593,11 +1189,31 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/test/edit/{id}")
-    public String testEditDashboard(@PathVariable("id") Integer testid, Model model, HttpSession session) {
+    public String testEditDashboard(@PathVariable("id") Integer testid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Test test = testDAO.findByID(testid);
 
         model.addAttribute("test", test);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/updateTest";
     }
@@ -633,11 +1249,31 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/test/add")
-    public String testAddDashboard(Model model, HttpSession session) {
+    public String testAddDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Test test = new Test();
 
         model.addAttribute("test", test);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addTest";
     }
@@ -651,7 +1287,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/rooms")
-    public String roomsDashboard(Model model, HttpSession session) {
+    public String roomsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Room> rooms = roomDAO.allrooms();
 
@@ -660,23 +1312,67 @@ public class AdminController {
         for (int i = 0; i < rooms.size(); i++) {
             System.out.println(rooms.get(0));
         }
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
         return "dashboard/rooms";
     }
 
     @GetMapping("/dashboard/delete/room/{id}")
-    public String roomDeleteDashboard(@PathVariable("id") Integer roomid, HttpSession session) {
+    public String roomDeleteDashboard(@PathVariable("id") Integer roomid,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         roomDAO.delete(roomid);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/rooms";
     }
 
     @GetMapping("/dashboard/room/add")
-    public String roomAddDashboard(Model model, HttpSession session) {
+    public String roomAddDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         Room room = new Room();
 
         model.addAttribute("room", room);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "dashboard/addRoom";
     }
@@ -690,7 +1386,23 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/medicineOrders")
-    public String orderMedsDashboard(Model model, HttpSession session) {
+    public String orderMedsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Payment> payments = paymentDAO.allMedicinepayments();
         List<String> usernames =  new ArrayList<String>();
@@ -705,12 +1417,32 @@ public class AdminController {
         model.addAttribute("payments", payments);
         model.addAttribute("usernames", usernames);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
 
         return "dashboard/medicineOrders";
     }
 
     @GetMapping("/dashboard/delete/medicineOrder/{id}")
-    public String paymentDeleteDashboard(@PathVariable("id") Integer paymentid, Model model, HttpSession session) {
+    public String paymentDeleteDashboard(@PathVariable("id") Integer paymentid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<PayorderMed> payorders = payorderMedDAO.findByPaymentID(paymentid);
 
@@ -720,11 +1452,31 @@ public class AdminController {
         }
         paymentDAO.delete(paymentid);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "redirect:/dashboard/manage/medicineOrders";
     }
 
     @GetMapping("/dashboard/manage/medicineOrder/{id}")
-    public String payorderMedicineDashboard(@PathVariable("id") Integer paymentid, Model model, HttpSession session) {
+    public String payorderMedicineDashboard(@PathVariable("id") Integer paymentid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<PayorderMed> payorders = payorderMedDAO.findByPaymentID(paymentid);
 
@@ -747,13 +1499,33 @@ public class AdminController {
         model.addAttribute("costs", costs);
         model.addAttribute("amounts", amounts);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "dashboard/payorderMedicines";
     }
 
     // /dashboard/delete/payorder/' + payorder.payorderMedID
 
     @GetMapping("/dashboard/delete/payorder/{id}")
-    public String payorderDeleteDashboard(@PathVariable("id") Integer payorderid, Model model, HttpSession session) {
+    public String payorderDeleteDashboard(@PathVariable("id") Integer payorderid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         PayorderMed payorder = payorderMedDAO.findByID(payorderid);
         int medicineid = payorder.getMedicineID();
@@ -768,12 +1540,32 @@ public class AdminController {
 
         payorderMedDAO.delete(payorderid);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
 
         return "redirect:/dashboard/manage/medicineOrder/" + payment.getPaymentID();
     }
 
     @GetMapping("/dashboard/manage/contactUsForms")
-    public String contactUsDashboard(Model model, HttpSession session) {
+    public String contactUsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<ContactUsForm> forms = homeDAO.allqueries();
 
@@ -796,13 +1588,145 @@ public class AdminController {
 
         model.addAttribute("forms", forms);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "dashboard/contactUsForms";
     }
 
+    @GetMapping("/dashboard/manage/payments")
+    public String paymentsDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		// if(!authenticateService.isAuthenticated(session))
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+		// 	return "redirect:/login";
+		// }
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+        List<Payment> payments = paymentDAO.allpayments();
+        model.addAttribute("payments", payments);
+
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
+        return "dashboard/payments";
+    }
+
+    @GetMapping("/dashboard/delete/payment/{id}")
+    public String paymentsDeleteDashboard(@PathVariable("id") int paymentid,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+        paymentDAO.delete(paymentid);
+
+        return "redirect:/dashboard/manage/payments";
+    }
+
+    @GetMapping("/dashboard/manage/applicants")
+    public String applicantssDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+        List<DoctorApplicant> applicants = applicantDAO.allDoctorApplicants();
+        model.addAttribute("applicants", applicants);
+
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
+        return "dashboard/applicants";
+    }
+
+    @GetMapping("/dashboard/delete/application/{id}")
+    public String applicationsDeleteDashboard(@PathVariable("id") int applicationid,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+        applicantDAO.delete(applicationid);
+
+        return "redirect:/dashboard/manage/applicants";
+    }
+
     @GetMapping("/dashboard/delete/contactUsForm/{id}")
-    public String contactUsDeleteDashboard(@PathVariable("id") int queryid, Model model, HttpSession session) {
+    public String contactUsDeleteDashboard(@PathVariable("id") int queryid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         homeDAO.delete(queryid);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/contactUsForms";
     }
@@ -816,19 +1740,59 @@ public class AdminController {
     }
 
     @GetMapping("/dashboard/manage/feedbacks")
-    public String feedbacksDashboard(Model model, HttpSession session) {
+    public String feedbacksDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         List<Feedback> feedbacks = feedbackDAO.allfeedbacks();
 
         model.addAttribute("feedbacks", feedbacks);
 
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
+
         return "dashboard/feedbacks";
     }
 
     @GetMapping("/dashboard/delete/feedback/{id}")
-    public String feedbackDeleteDashboard(@PathVariable("id") int feedbackid, Model model, HttpSession session) {
+    public String feedbackDeleteDashboard(@PathVariable("id") int feedbackid, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+        String loggedinUser = authenticateService.getCurrentUser(session);
+        User loggeduser = userDAO.findByUsername(loggedinUser);
+        String authorizeMessage = "Sorry, You are not authorize to do this operation!!!";
+		// if(loggeduser.getRole() != "Admin")
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
 
         feedbackDAO.delete(feedbackid);
+
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+        model.addAttribute("loggedUser", loggedUser);
 
         return "redirect:/dashboard/manage/feedbacks";
     }

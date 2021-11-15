@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="header :: header"></head>
+<body>
+
+<div th:replace="navbar :: navbar"></div>
+
+
+<div class="container justify-content-center text-center">
+    <div style="margin-bottom: 200px;"></div>
+<h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">You are not authorized to
+view this page... Please go back to home page...</h1>
+<div style="margin-bottom: 200px;"></div>
+</div>
+
+<div th:replace="footer :: footer"></div>
+<script th:replace="toast :: toast"></script>
+
+</body>
+</html>

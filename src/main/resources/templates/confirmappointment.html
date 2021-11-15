@@ -66,7 +66,8 @@
 
                             <div><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date: </span><span class="my-2" th:text="${appointment.currDate}"> Today's Date</span></div>
 
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black">Unpaid</span></div>
+                            <!-- <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black" th:unless="${appointment.status =='Confirmed'}" text="Unpaid">Unpaid</span></div> -->
                         </div>
                     </div>
                     <!-- /.col -->
@@ -77,12 +78,12 @@
                         <thead class="bg-none bgc-default-tp1">
                             <tr class="text-white">
                                 <th class="opacity-2" style="text-align: center;">S.No.</th>
-                                <th style="text-align: center;">Doctor Username</th>
-                                <th style="text-align: center;">Appointment Date</th>
-                                <th style="text-align: center;">Start Time</th>
-                                <th style="text-align: center;">End Time</th>
-                                <th style="text-align: center;">Description</th>
-                                <th style="text-align: center;">Amount</th>
+                                <th style="text-align: center;color:black">Doctor Username</th>
+                                <th style="text-align: center;color:black">Appointment Date</th>
+                                <th style="text-align: center;color:black">Start Time</th>
+                                <th style="text-align: center;color:black">End Time</th>
+                                <th style="text-align: center;color:black">Description</th>
+                                <th style="text-align: center;color:black">Amount</th>
                             </tr>
                         </thead>
 

@@ -6,6 +6,7 @@ import com.example.DBMS.dao.UserDAO;
 import com.example.DBMS.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,11 +14,16 @@ public class AuthenticateService {
     
     @Autowired
     private UserDAO users;
+
+    @Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    
     private String loggedUser = "AUTH_USER";
 
     public Boolean checkCredentials(String username, String password) {
         User user = users.findByUsername(username);
-        return user.getPassword().equals(password);
+        return bCryptPasswordEncoder.matches(password,user.getPassword());
     }
 
     public void loginUser(HttpSession session, String username) {

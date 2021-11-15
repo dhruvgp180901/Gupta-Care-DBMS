@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head th:replace="header :: header"></head>
-<body text-align="center" style="background-image: url('https://wallpapercave.com/wp/wp1848585.jpg');">
+<body text-align="center">
 
 <div th:replace="navbar :: navbar"></div>
 
@@ -23,15 +23,15 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="bookDate-input-field">Appointment Date</la0bel></div>
-                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Appointment Booking Date" required="required" th:field="*{bookDate}"></div>
+                <div class="col-sm-5 input-column"><input type="date" min="2021-11-15" max="2021-12-31" class="form-control" placeholder="Appointment Booking Date" required="required" th:field="*{bookDate}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="bookStime-input-field">Appointment Start Time </label></div>
-                <div class="col-sm-5 input-column"><input type="time" class="form-control" placeholder="Appointment Start Time" required="required" th:field="*{bookStime}"></div>
+                <div class="col-sm-5 input-column"><input type="time" value="00:00" class="form-control" placeholder="Appointment Start Time" required="required" th:field="*{bookStime}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="bookEtime-input-field">Appointment End Time </label></div>
-                <div class="col-sm-5 input-column"><input type="time" class="form-control" placeholder="Appointment End Time" required="required" th:field="*{bookEtime}"></div>
+                <div class="col-sm-5 input-column"><input type="time" value="00:00" class="form-control" placeholder="Appointment End Time" required="required" th:field="*{bookEtime}"></div>
             </div>
 
             <div class="row form-group">

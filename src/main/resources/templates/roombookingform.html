@@ -14,17 +14,17 @@
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="username-input-field">Patient Username </label></div>
                 <div class="col-sm-5 input-column"><input type="text" class="form-control" th:readonly="true" th:field="*{username}"></div>
             </div>
-            <!-- <div class="row form-group">
+            <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="currDate-input-field">Date </label></div>
                 <div class="col-sm-5 input-column"><input type="text" class="form-control" th:readonly="true" th:field="*{currDate}"></div>
-            </div> -->
+            </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="startDate-input-field">Start Date</la0bel></div>
-                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Room Booking Start Date" required="required" th:field="*{startDate}"></div>
+                <div class="col-sm-5 input-column"><input type="date" min="2021-11-15" max="2021-12-31" class="form-control" placeholder="Room Booking Start Date" required="required" th:field="*{startDate}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="endDate-input-field">End Date</la0bel></div>
-                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Room Booking End Date" required="required" th:field="*{endDate}"></div>
+                <div class="col-sm-5 input-column"><input type="date" min="2021-11-15" max="2021-12-31" class="form-control" placeholder="Room Booking End Date" required="required" th:field="*{endDate}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="description-input-field">Description </label></div>

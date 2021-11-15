@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head th:replace="dashboard/layouts/header :: header"></head>
+
+  <body id="page-top">
+    <div id="wrapper">
+      <ul th:replace="dashboard/layouts/sidebar :: sidebar"></ul>
+      <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+          <nav th:replace="dashboard/layouts/navbar :: navbar"></nav>
+
+          <div class="container-fluid">
+            <div
+              class="d-sm-flex align-items-center justify-content-between mb-4"
+            >
+              <h1 class="h3 mb-0 text-gray-800">Manage Applications</h1>
+            </div>
+
+            <div class="card shadow mb-4">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                  List of all Applicants
+                </h6>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table
+                    class="table table-bordered"
+                    id="dataTable"
+                    width="100%"
+                    cellspacing="0"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email ID</th>
+                        <th>Phone Number</th>
+                        <th>Specialization</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr th:each="applicant, id: *{applicants}">
+                        <td th:text="*{applicant.applicantName}">
+                          Patient Username
+                        </td>
+                        <td th:text="${applicant.applicantEmailID}">
+                          Doctor Username
+                        </td>
+                        <td th:text="${applicant.applicantPhoneNumber}">Date</td>
+                        <td th:text="${application.specialization}">Start Time</td>
+                        <td>
+                            <a
+                              th:href="${'/dashboard/delete/application/' + application.applicationID}"
+                              class="btn btn-info"
+                              role="button"
+                              ><i class="fa fa-trash"></i>Reply</a
+                            >
+                          </td>
+                        <td>
+                          <a
+                            th:href="${'/dashboard/delete/application/' + application.applicationID}"
+                            class="btn btn-danger"
+                            role="button"
+                            ><i class="fa fa-trash"></i>Delete</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer th:replace="dashboard/layouts/footer :: footer"></footer>
+      </div>
+    </div>
+
+    <a th:replace="dashboard/layouts/scrollToTop :: scrollToTop"> </a>
+    <div th:replace="dashboard/layouts/logoutModal :: logoutModal"></div>
+    <script th:replace="toast :: toast"></script>
+  </body>
+</html>

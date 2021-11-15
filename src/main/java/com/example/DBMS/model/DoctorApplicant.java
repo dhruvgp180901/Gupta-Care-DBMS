@@ -62,7 +62,7 @@ public class DoctorApplicant {
 	public String getResumePath() {
         if (resume == null) return null;
          
-        return "/user-photos/resume/" + applicantName + "/" + resume;
+        return "/applicant-photos/resume/" + applicantName + "/" + resume;
     }
 
 	@Override

@@ -23,6 +23,7 @@ import com.example.DBMS.model.Payment;
 import com.example.DBMS.model.PayorderMed;
 import com.example.DBMS.model.User;
 import com.example.DBMS.service.AuthenticateService;
+import com.example.DBMS.service.ToastService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,8 @@ public class MedicineController {
 
 	 @Autowired
 	 private AuthenticateService authenticateService;
+    @Autowired
+	 private ToastService toastService;
      @Autowired
 	 private MedicineDAO medicineDAO;
      @Autowired
@@ -66,13 +69,28 @@ public class MedicineController {
         //     System.out.println(list.get(i));
         // }
          model.addAttribute("medicines", list);
+      if(authenticateService.isAuthenticated(session))
+		{
+			model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+		}
+
  
          return "medicine";
      }
 
      @GetMapping("/medicine/{id}")
-     public String ordermedicine(@PathVariable("id") int id, Model model,HttpSession session) {
- 
+     public String ordermedicine(@PathVariable("id") int id, Model model,HttpSession session, RedirectAttributes redirectAttributes) {
+      
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
       Order order = new Order();
 
       Medicine medicine = medicineDAO.findByID(id);
@@ -83,6 +101,9 @@ public class MedicineController {
       order.setCost(medicine.getCost());
       order.setDate(java.time.LocalDate.now().toString());
       orderDAO.save(order);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+      User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
       return "redirect:/medicines";
      }
@@ -106,7 +127,14 @@ public class MedicineController {
      }
 
      @GetMapping("/mycart")
-     public String myorderMed(Model model,HttpSession session) {
+     public String myorderMed(Model model,HttpSession session, RedirectAttributes redirectAttributes) {
+
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
  
         String username = authenticateService.getCurrentUser(session);
         List<Order> list = orderDAO.findByUsername(username);
@@ -130,6 +158,9 @@ public class MedicineController {
         model.addAttribute("amounts", amounts);
         model.addAttribute("medicines",medicines);
         model.addAttribute("payment",payment);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
         return "myMed";
      }
@@ -182,8 +213,15 @@ public class MedicineController {
    }
 
    @GetMapping("/confirm/orderMed")
-   public String confirmMedicineBill(Model model,HttpSession session) {
+   public String confirmMedicineBill(Model model,HttpSession session, RedirectAttributes redirectAttributes) {
       
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
       String username = authenticateService.getCurrentUser(session);
 
 
@@ -213,13 +251,23 @@ public class MedicineController {
         model.addAttribute("amounts", amounts);
         model.addAttribute("medicines",medicines);
         model.addAttribute("payment",payment);
+        model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
       return "confirmmedicineorder";
    }
 
    @GetMapping("/paymedicine")
-   public String payorderMedicine(Model model,HttpSession session) {
+   public String payorderMedicine(Model model,HttpSession session, RedirectAttributes redirectAttributes) {
       
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
       String username = authenticateService.getCurrentUser(session);
 
       User user = userDAO.findByUsername(username);
@@ -269,12 +317,34 @@ public class MedicineController {
 
          orderDAO.delete(list.get(i).getOrderID());
       }
+      model.addAttribute("payment", payment);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
 
-      return "redirect:/medicines";
+      return "makepayment";
    }
 
+   @PostMapping("/paymedicine")
+	public String paymentMedicinePost(@ModelAttribute("payment") Payment payment,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        payment.setStatus("Confirmed");
+        payment.setPurpose("Medicine Order");
+
+        paymentDAO.save(payment);
+
+        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Made Succesfully...");
+        return "redirect:/welcome";
+
+	}
+
    @GetMapping("/mymedicineorders")
-    public String orderMedicinesDashboard(Model model, HttpSession session) {
+    public String orderMedicinesDashboard(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
       User user = userDAO.findByUsername(authenticateService.getCurrentUser(session));
 
@@ -301,13 +371,23 @@ public class MedicineController {
 
 		model.addAttribute("feedback", feedback);
 		model.addAttribute("feedbacks", feedbacks);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+      User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 
         return "mymedicineorders";
     }
 
     @GetMapping("/medicineOrder/{id}")
-    public String MedordershowDashboard(@PathVariable("id") int paymentid,Model model, HttpSession session) {
+    public String MedordershowDashboard(@PathVariable("id") int paymentid,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+      String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
       String username = authenticateService.getCurrentUser(session);
 
@@ -346,6 +426,9 @@ public class MedicineController {
       model.addAttribute("amounts", amounts);
 
       model.addAttribute("medicines", medicines);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+      User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
         return "medicineOrder";
     }

@@ -18,14 +18,14 @@
                 width: 200px;
                 background-size: cover;
                 border-radius: 50%;
-                margin-left: calc(50% - 100px);"></div>
+                margin-left: 100px"></div>
                 <img th:unless="${user.photo}" th:src="@{https://i.pinimg.com/originals/51/f6/fb/51f6fb256629fc755b8870c801092942.png}" class="avatar-bg" style="
                 background-position: 50% 50%;
                 height: 200px;
                 width: 200px;
                 background-size: cover;
                 border-radius: 50%;
-                margin-left: calc(50% - 100px);"/>
+                margin-left: 100px"/>
             </div>
             <div class="pl-sm-4 pl-2 ms-3" id="img-section"> <b>Profile Photo</b>
                 <p>Accepted file type .png. Less than 1MB</p> 
@@ -40,12 +40,12 @@
             <div class="col-md-4 pt-md-0 pt-3"> <label for="lastName">Last Name</label> <input type="text" th:field="*{lastName}" th:readonly="true" class="bg-light form-control" placeholder="Last Name"> </div>
         </div>
         <div class="row py-2">
-            <div class="col-md-6"> <label for="email">Email ID</label> <input type="text" th:field="*{emailID}" th:readonly="true" class="bg-light form-control" placeholder="Email ID"> </div>
-            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Phone Number</label> <input type="tel" th:field="*{phone}" required="required" class="bg-light form-control" placeholder="Phone Number"> </div>
+            <div class="col-md-6"> <label for="email">Email ID</label> <input type="email" th:field="*{emailID}" th:readonly="true" class="bg-light form-control" placeholder="Email ID"> </div>
+            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Phone Number</label> <input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" th:field="*{phone}" required="required" class="bg-light form-control" placeholder="9999-999-999"> </div>
         </div>
         <div class="row py-2">
-            <div class="col-md-6"> <label for="email">Date of Birth</label> <input type="date" th:field="*{birthDate}" th:readonly="true" class="bg-light form-control" placeholder="DOB"> </div>
-            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Aadhar Card Number</label> <input type="number" th:field="*{adhaarNumber}" th:readonly="true" class="bg-light form-control" placeholder="Aadhar Number"> </div>
+            <div class="col-md-6"> <label for="email">Date of Birth</label> <input type="date" th:field="*{birthDate}" min="1900-12-31" max="2021-11-15" th:readonly="true" class="bg-light form-control" placeholder="DOB"> </div>
+            <div class="col-md-6 pt-md-0 pt-3"> <label for="phone">Aadhar Card Number</label> <input type="number" min="100000000000" max="999999999999" th:field="*{adhaarNumber}" th:readonly="true" class="bg-light form-control" placeholder="Aadhar Number"> </div>
         </div>
         <div class="row py-2">
             <div class="col-md-4"> <label for="email">Street</label> <input type="text" th:field="*{street}" required="required" class="bg-light form-control" placeholder="Street"> </div>

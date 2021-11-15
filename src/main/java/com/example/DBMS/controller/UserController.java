@@ -13,6 +13,7 @@ import com.example.DBMS.model.Appointment;
 import com.example.DBMS.model.Bill;
 import com.example.DBMS.model.User;
 import com.example.DBMS.service.AuthenticateService;
+import com.example.DBMS.service.ToastService;
 // import com.example.DBMS.service.ToastService;
 import com.example.DBMS.validator.UserValidator;
 
@@ -40,13 +41,33 @@ public class UserController {
 	 private UserValidator userValidator;
 	 @Autowired
 	 private AuthenticateService authenticateService;
+	 @Autowired
+	 private ToastService toastService;
 
     @GetMapping("/profile/{username}")
-	public String profile(@PathVariable("username") String username,HttpSession session, Model model) {
+	public String profile(@PathVariable("username") String username,HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 		
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+		String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(authenticateService.getCurrentUser(session) != username)
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
 		User user = userDAO.findByUsername(username);
 		
 		model.addAttribute("user", user);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
 		
 		return "profile";
 		
@@ -60,16 +81,33 @@ public class UserController {
 	}
 
 	@GetMapping("/profile/edit/{username}")
-	public String profileEdit(@PathVariable("username") String username,HttpSession session, Model model) {
+	public String profileEdit(@PathVariable("username") String username,HttpSession session, Model model, RedirectAttributes redirectAttributes) {
 		
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+		String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(authenticateService.getCurrentUser(session) != username)
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
 		User user = userDAO.findByUsername(username);
 
 		System.out.println(user);
 		
 		model.addAttribute("user", user);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
 		
-		return "profileupdate";
-		
+		return "profileupdate";	
 	}
 
     @PostMapping("/profile/edit/{username}")
@@ -99,6 +137,53 @@ public class UserController {
 		userDAO.update(user.getAdhaarNumber(),user.getStreet(),user.getCity(),user.getState(),user.getCountry(),user.getPhone(),username);
         return "redirect:/profile/" + username;
     }
+
+	@GetMapping("/{username}/change/Password")
+	public String passwordChange(@PathVariable("username") String username,HttpSession session, Model model, RedirectAttributes redirectAttributes) {
+		
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+
+		String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(authenticateService.getCurrentUser(session) != username)
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+		User user = new User();
+
+		user.setUsername(username);
+
+		model.addAttribute("user", user);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
+
+		return "changePassword";	
+	}
+
+	@PostMapping("/{username}/change/Password")
+	public String passwordChangePost(@ModelAttribute("user") User user, @PathVariable("username") String username,HttpSession session, Model model) {
+		
+		User registeredUser = userDAO.findByUsername(username);
+
+		if(userDAO.updatePassword(username, registeredUser.getPassword(), user.getOldPassword(), user.getPassword()) == true)
+		{
+			System.out.println("Hogya");
+		}
+		else
+		{
+			System.out.println("Niii Hua");
+		}
+		
+		return "redirect:/login";	
+	}
 
     
 }

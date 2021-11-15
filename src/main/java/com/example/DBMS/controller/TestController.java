@@ -22,6 +22,7 @@ import com.example.DBMS.model.Test;
 import com.example.DBMS.model.Testbooking;
 import com.example.DBMS.model.User;
 import com.example.DBMS.service.AuthenticateService;
+import com.example.DBMS.service.ToastService;
 // import com.example.DBMS.service.ToastService;
 import com.example.DBMS.validator.UserValidator;
 
@@ -50,29 +51,38 @@ public class TestController {
 	 private UserDAO userDAO;
      @Autowired
 	 private TestbookingDAO testbookingDAO;
-	//  @Autowired
-	//  private ToastService toastService;
+	 @Autowired
+	 private ToastService toastService;
 	 @Autowired
 	 private UserValidator userValidator;
 	 @Autowired
 	 private AuthenticateService authenticateService;
 	
 	@GetMapping("/booktest")
-	public String alltests(Model model,HttpSession session) {
+	public String alltests(Model model,HttpSession session, RedirectAttributes redirectAttributes) {
 
-		// System.out.println(authenticateService.getCurrentUser(session));
-		model.addAttribute("patientName", authenticateService.getCurrentUser(session));
 
 		List<Test> list=testDAO.alltests();
 		model.addAttribute("tests", list);
-
+		if(authenticateService.isAuthenticated(session))
+		{
+			model.addAttribute("patientName", authenticateService.getCurrentUser(session));
+			model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+			User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+			model.addAttribute("loggedUser", loggedUser);
+		}
 		return "test";
 	}
 
     @GetMapping("{username}/booktest/{id}")
-	public String testbook(@PathVariable("username") String username, @PathVariable("id") int testid, Model model,HttpSession session) {
+	public String testbook(@PathVariable("username") String username, @PathVariable("id") int testid, Model model,HttpSession session, RedirectAttributes redirectAttributes) {
 
-		
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
         Testbooking testbooking = new Testbooking();
 
@@ -84,6 +94,10 @@ public class TestController {
         testbooking.setTestName(test.getTestName());
 
         model.addAttribute("testbooking", testbooking);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
 
 		return "bookingtest";
 	}
@@ -91,7 +105,7 @@ public class TestController {
     @PostMapping("{username}/booktest/{id}")
 	public String testbookPost(@PathVariable("username") String username, @PathVariable("id") int testid,@ModelAttribute("testbooking") Testbooking testbooking, Model model,HttpSession session) {
 
-            testbooking.setStatus("pending");
+            testbooking.setStatus("Pending");
             System.out.print(testbooking);
             testbookingDAO.save(testbooking);
             int id = testbookingDAO.getLastID();
@@ -99,7 +113,14 @@ public class TestController {
 	}
 
     @GetMapping("/confirmtestbooking/{id}")
-	public String confirmbookingtest(@PathVariable("id") int id, Model model, HttpSession session) {
+	public String confirmbookingtest(@PathVariable("id") int id, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
 		Testbooking testbooking = testbookingDAO.findByID(id);
 		System.out.println(testbooking);
@@ -114,6 +135,9 @@ public class TestController {
 		model.addAttribute("user", user);
 		model.addAttribute("testbooking", testbooking);
 		model.addAttribute("id", id);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 		return "confirmtestbooking";
 	}
@@ -127,7 +151,14 @@ public class TestController {
 	}
 
 	@GetMapping("/mytestbookings")
-	public String mytestbooking(Model model, HttpSession session) {
+	public String mytestbooking(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
 		String username = authenticateService.getCurrentUser(session);
 
@@ -162,6 +193,9 @@ public class TestController {
 		model.addAttribute("feedbacks", feedbacks);
 
 		model.addAttribute("costs", costs);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 
 		return "mytestbookings";

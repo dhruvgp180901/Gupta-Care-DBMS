@@ -51,7 +51,6 @@ public class DoctorController {
 	public String alldoctors(Model model,HttpSession session) {
 
 		// System.out.println(authenticateService.getCurrentUser(session));
-		model.addAttribute("patientName", authenticateService.getCurrentUser(session));
 
 		List<Doctor> list=doctorDAO.allDoctors();
 		System.out.println(list.get(0));
@@ -65,6 +64,14 @@ public class DoctorController {
 		}
 		model.addAttribute("users", users);
 		model.addAttribute("doctors", list);
+
+		if(authenticateService.isAuthenticated(session))
+		{
+			model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+			model.addAttribute("patientName", authenticateService.getCurrentUser(session));
+			User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+			model.addAttribute("loggedUser", loggedUser);
+		}
 
 		return "doctor";
 	}

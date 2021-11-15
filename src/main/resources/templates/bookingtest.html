@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head th:replace="header :: header"></head>
-<body text-align="center" style="background-image: url('https://wallpapercave.com/wp/wp1848585.jpg');">
+<body text-align="center">
 
 <div th:replace="navbar :: navbar"></div>
 
@@ -23,11 +23,11 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="bookDate-input-field">Booking Date</la0bel></div>
-                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Test Booking Date" required="required" th:field="*{bookDate}"></div>
+                <div class="col-sm-5 input-column"><input type="date" min="2021-11-15" max="2022-12-31" class="form-control" placeholder="Test Booking Date" required="required" th:field="*{bookDate}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="booktime-input-field">Booking Time </label></div>
-                <div class="col-sm-5 input-column"><input type="time" class="form-control" placeholder="Test Booking Time" required="required" th:field="*{bookTime}"></div>
+                <div class="col-sm-5 input-column"><input type="time" value="00:00" class="form-control" placeholder="Test Booking Time" required="required" th:field="*{bookTime}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="diseaseDescription-input-field">Description </label></div>

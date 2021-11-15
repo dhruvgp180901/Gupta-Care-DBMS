@@ -15,7 +15,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="middleName-input-field">Middle Name </label></div>
-                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Middle Name" th:field="*{middleName}"></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Middle Name (Optional)" th:field="*{middleName}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="lastName-input-field">Last Name </label></div>
@@ -27,11 +27,11 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="phone-input-field">Phone </label></div>
-                <div class="col-sm-5 input-column"><input type="number" class="form-control" placeholder="Phone Number" required="required" th:field="*{phone}"></div>
+                <div class="col-sm-5 input-column"><input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" class="9999-999-999" placeholder="9999-999-999" required="required" th:field="*{phone}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="birthDate-input-field">Date of Birth</label></div>
-                <div class="col-sm-5 input-column"><input type="date" class="form-control" placeholder="Date of Birth" required="required" th:field="*{birthDate}"></div>
+                <div class="col-sm-5 input-column"><input type="date" class="form-control" min="1900-12-31" max="2021-11-15" placeholder="Date of Birth" required="required" th:field="*{birthDate}"></div>
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="street-input-field">Street </label></div>
@@ -51,7 +51,7 @@
             </div>
             <div class="row form-group">
                 <div class="col-sm-4 label-column"><label class="col-form-label" for="adhaarNumber-input-field">Aadhar Card Number </label></div>
-                <div class="col-sm-5 input-column"><input type="number" class="form-control" placeholder="Aadhar Number" required="required" th:field="*{adhaarNumber}"></div>
+                <div class="col-sm-5 input-column"><input type="number" min="100000000000" max="999999999999" class="form-control" placeholder="Aadhar Number" required="required" th:field="*{adhaarNumber}"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-4 label-column" style="margin-left:-18px;"><label class="col-form-label" for="gender-input-field">Gender </label></div>

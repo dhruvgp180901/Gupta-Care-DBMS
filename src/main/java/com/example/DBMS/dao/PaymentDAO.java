@@ -24,13 +24,16 @@ public class PaymentDAO {
 	
 	public void save(Payment payment) {
 	
-		String sql="insert into payment(purpose,purposeID,amount,payDate,status) values (?,?,?,?,?);";
+		String sql="insert into payment(purpose,purposeID,amount,payDate,status,cardNumber,expirationDate,cvv) values (?,?,?,?,?,?,?,?);";
 		jt.update(sql,
 		payment.getPurpose(),
         payment.getPurposeID(),
         payment.getAmount(),
         payment.getPayDate(),
-        payment.getStatus()
+        payment.getStatus(),
+		payment.getCardNumber(),
+		payment.getExpirationDate(),
+		payment.getCvv()
 		);		
 	}
 

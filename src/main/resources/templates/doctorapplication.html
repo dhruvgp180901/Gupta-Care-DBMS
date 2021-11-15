@@ -1,55 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head th:replace="header :: header"></head>
-<body>
+<body text-align="center" style="background-image: url('https://wallpapercave.com/wp/wp1848585.jpg');">
 
 <div th:replace="navbar :: navbar"></div>
 
-<div id="contact-sec">
-    <div class="overlay">
-        <div class="container set-pad">
-            <div class="row text-center">
-                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-sm-8 col-md-offset-2 col-sm-offset-2">
-                    <h1 data-scroll-reveal="enter from the bottom after 0.1s" class="header-line" >Book an Appointment</h1>
-                </div>
-
+<div class="row register-form" style="margin-top: 100px; width: 100%;">
+    <div class="col-md-8 offset-md-2" style="background-color: aliceblue;">
+        <form display="inline" class="custom-form" style="background-color: aliceblue;" method="post" th:object="${application}">
+            <h1>Doctor Application Form</h1>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="firstName-input-field">First Name </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Full Name" required="required" th:field="*{applicantName}"></div>
             </div>
-            <div class="row set-row-pad"  data-scroll-reveal="enter from the bottom after 0.5s" >
-                <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
-            <form th:object="${application}" method="POST" enctype="multipart/form-data">
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="emailID-input-field">Email ID </label></div>
+                <div class="col-sm-5 input-column"><input type="email" class="form-control" placeholder="Email ID" required="required" th:field="*{applicantEmailID}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="phone-input-field">Phone </label></div>
+                <div class="col-sm-5 input-column"><input type="tel" pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}" class="9999-999-999" placeholder="9999-999-999" required="required" th:field="*{applicantPhoneNumber}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="specialization-input-field">Specialization </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Full Name" required="required" th:field="*{specialization}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="specialization-input-field">Date </label></div>
+                <div class="col-sm-5 input-column"><input type="text" class="form-control" placeholder="Full Name" th:readonly="true" th:field="*{applicationDate}"></div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 label-column"><label class="col-form-label" for="specialization-input-field">Add Resume </label></div>
+                
+                <div class="col-sm-5 input-column"><input  type="file" name = "file" accept="file/pdf file/png file/jpg file/jpeg"></div>
+            </div>
+            
             <div class="form-group">
-                <label for="applicantName">Full Name</label>
-                <input type="text" th:field="*{applicantName}" class="form-control" required="required"/><br/>
+                <button type="submit" class="btn btn-info btn-block btn-lg">Register</button>
             </div>
-            <div class="form-group">
-                <label for="applicantPhoneNumber">Contact Number</label>
-                <input type="number" th:field="*{applicantPhoneNumber}" class="form-control" required="required"/><br/>
-            </div>
-            <div class="form-group">
-                <label for="applicantEmailID">Date</label>
-                <input type="email" th:field="*{applicantEmailID}" class="form-control" required="required"/><br/>
-            </div>
-            <div class="form-group">
-                <label for="applicationDate">Date</label>
-                <input type="date" th:field="*{applicationDate}" th:readonly="true" class="form-control"/><br/>
-            </div>
-            <div class="form-group">
-                <label for="specialization">Specialization</label>
-                <input type="text" th:field="*{specialization}" class="form-control" required="required"/><br/>
-            </div>
-            <input type="file" name="file"/> Add Resume<br />
-            <div class="form-group">
-                <button type="submit" class="btn btn-info btn-block btn-lg">Confirm Appointment</button>
-            </div>
-            </form>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
+
 <div th:replace="footer :: footer"></div>
 <script th:replace="toast :: toast"></script>
 
 </body>
 </html>
-

@@ -49,14 +49,14 @@
                         <thead class="bg-none bgc-default-tp1">
                             <tr class="text-white">
                                 <th class="opacity-2" style="text-align: center;">S.No.</th>
-                                <th style="text-align: center;">Test Name</th>
-                                <th style="text-align: center;">Test Date</th>
-                                <th style="text-align: center;">Test Time</th>
-                                <th style="text-align: center;">Disease Description</th>
-                                <th style="text-align: center;">Amount</th>
-                                <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">Action</th>
-                                <th style="text-align: center;">Feedback</th>
+                                <th style="text-align: center;color:black">Test Name</th>
+                                <th style="text-align: center;color:black">Test Date</th>
+                                <th style="text-align: center;color:black">Test Time</th>
+                                <th style="text-align: center;color:black">Disease Description</th>
+                                <th style="text-align: center;color:black">Amount</th>
+                                <th style="text-align: center;color:black">Status</th>
+                                <th style="text-align: center;color:black">Action</th>
+                                <th style="text-align: center;color:black">Feedback</th>
                             </tr>
                         </thead>
 
@@ -72,7 +72,7 @@
                                 <td style="padding-top:16px;text-align: center;" th:unless="${testbooking.status} == 'Confirmed'" th:text="Unpaid">Status</td>
                                 <td style="text-align: center;"><a th:href="@{/confirmtestbooking/__${testbooking.testbookingID}__}" class="btn btn-info" style="padding:8px;font-size:15px" role="button"><i class="fa fa-eye"></i> View</a></td>
                                 
-                                <td th:if="${testbooking.status == 'Confirmed' and feedbacks[id.index] == 0}" style="padding-top:12px;">
+                                <td th:if="${testbooking.status == 'Pending' and feedbacks[id.index] == 0}" style="padding-top:12px;">
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                                         <span style="font-size:15px">Submit Feedback</span>
                                     </button>
@@ -132,7 +132,7 @@
                                     <span th:if="${feedbacks[id.index] &gt 3}" class="fa fa-star checked"></span>
                                     <span th:if="${feedbacks[id.index] &gt 4}" class="fa fa-star checked"></span>
                                 </td>
-                                <td th:if="*{testbooking.status} == 'pending'" th:text="NA" class="text-center" style="padding-top:15px;"></td>
+                                <td th:if="*{testbooking.status} == 'Pending'" th:text="NA" class="text-center" style="padding-top:15px;"></td>
                             </tr>
                         </tbody>
                     </table>

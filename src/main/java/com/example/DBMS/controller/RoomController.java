@@ -22,6 +22,7 @@ import com.example.DBMS.model.Order;
 import com.example.DBMS.model.Room;
 import com.example.DBMS.model.User;
 import com.example.DBMS.service.AuthenticateService;
+import com.example.DBMS.service.ToastService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,8 @@ public class RoomController {
     @Autowired
     private AuthenticateService authenticateService;
     @Autowired
+    private ToastService toastService;
+    @Autowired
     private BookroomDAO bookroomDAO;
     @Autowired
     private RoomDAO roomDAO;
@@ -54,18 +57,36 @@ public class RoomController {
     @GetMapping("/ward")
     public String allwards(Model model, HttpSession session) {
 
+        if(authenticateService.isAuthenticated(session))
+		{
+			model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+            User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+		}
+
         return "ward";
 
     }
 
     @GetMapping("/ward/general")
-    public String generalward(Model model, HttpSession session) {
+    public String generalward(Model model, HttpSession session, RedirectAttributes redirectAttributes){
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
         Bookroom bookroom = new Bookroom();
 
         bookroom.setUsername(authenticateService.getCurrentUser(session));
 
         model.addAttribute("bookroom", bookroom);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
 
         return "roombookingform"; 
     }
@@ -96,7 +117,14 @@ public class RoomController {
     }
 
     @GetMapping("/confirmroom/{id}")
-    public String confirmbookroom(@PathVariable("id") int id, Model model, HttpSession session) {
+    public String confirmbookroom(@PathVariable("id") int id, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
         Bookroom bookroom = bookroomDAO.findByID(id);
         
@@ -124,6 +152,10 @@ public class RoomController {
 
         User user = userDAO.findByUsername(authenticateService.getCurrentUser(session));
         model.addAttribute("user", user);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
+
 
         return "confirmroom";
 
@@ -138,19 +170,43 @@ public class RoomController {
 	}
 
     @GetMapping("/ward/private")
-    public String privateward(Model model, HttpSession session) {
+    public String privateward(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+		// model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
         return "private"; 
     }
 
     @GetMapping({"/ward/private/single/ac","/ward/private/single/nonac","ward/private/double/ac","ward/private/double/nonac"})
-    public String privateroom(Model model, HttpSession session) {
+    public String privateroom(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
         Bookroom bookroom = new Bookroom();
+
+        bookroom.setCurrDate(new Date().toString());
 
         bookroom.setUsername(authenticateService.getCurrentUser(session));
 
         model.addAttribute("bookroom", bookroom);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
         return "roombookingform"; 
     }
@@ -176,7 +232,7 @@ public class RoomController {
 
         // room not available;
 
-        return "redirect:/private"; 
+        return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/single/ac")
@@ -198,7 +254,7 @@ public class RoomController {
             }      
         // room not available;
 
-        return "redirect:/private"; 
+        return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/double/nonac")
@@ -224,7 +280,7 @@ public class RoomController {
       
         // room not available;
 
-        return "redirect:/private"; 
+        return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/double/ac")
@@ -233,7 +289,7 @@ public class RoomController {
         List<Integer> rooms = bookroomDAO.bookroomExist("Private", "AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
         System.out.println(rooms.size());
 
-        if(rooms.size() > 0) {
+        // if(rooms.size() > 0) {
 
             bookroom.setRoomID(rooms.get(0));
 
@@ -247,15 +303,22 @@ public class RoomController {
             int id = bookroomDAO.getLastID();
 
             return "redirect:/confirmroom/" + id;
-        }
+        // }
 
         // room not available;
-        System.out.println("juyyyy");
-        return "redirect:/private"; 
+        // System.out.println("juyyyy");
+        // return "redirect:/private"; 
     }
 
     @GetMapping("/myroombookings")
-	public String myroombooks(Model model, HttpSession session) {
+	public String myroombooks(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+        String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
 		String username = authenticateService.getCurrentUser(session);
 
@@ -293,6 +356,9 @@ public class RoomController {
 
 		model.addAttribute("roombookings", roombookings);
         model.addAttribute("rooms", rooms);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+        User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 		return "myroombookings";
 	} 

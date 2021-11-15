@@ -9,6 +9,7 @@ public class User {
 	private String username;
 	private String password;
 	private String passwordConfirm;
+	private String oldPassword;
 	private String role;
 	private String photo;
 	private Date birthDate;
@@ -23,7 +24,8 @@ public class User {
 	private String state;
 	private String country;
 	private String phone;
-
+	private String token;
+	private int active;
 
 	public int getUserID() {
 		return this.userID;
@@ -174,6 +176,31 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+
+	public String getToken() {
+		return this.token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public int getActive() {
+		return this.active;
+	}
+
+	public void setActive(int active) {
+		this.active = active;
+	}
+
+	public String getOldPassword() {
+		return this.oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -181,7 +208,7 @@ public class User {
 				+ birthDate + ", gender=" + gender + ", adhaarNumber=" + adhaarNumber
 				+ ", emailID=" + emailID + ", firstName=" + firstName + ", lastName=" + lastName + ", middleName="
 				+ middleName + ", street=" + street + ", city=" + city + ", state=" + state
-				+ ", country=" + country + ", role=" + role + ", photo=" + photo + ", phone=" + phone +"]";
+				+ ", country=" + country + ", role=" + role + ", photo=" + photo + ", phone=" + phone + ", token=" + token + ", active=" + active + "]";
 	}
 
 

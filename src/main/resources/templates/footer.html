@@ -1,48 +1,47 @@
 <div th:fragment="footer">
   <!-- <footer class="bg-light footer"> -->
   <footer>
-    <h1>Footer</h1>
+    <h1>Gupta's</h1>
     <div class="row">
       <div class="col-sm-6 col-md-4 footer-navigation">
         <h3>
-          <a href="#">Company<span>logo </span></a>
+          <a th:href="@{/welcome}"><span> <img th:src="@{/images/hospital.png}"></span></a>
         </h3>
         <p class="links">
-          <a href="#">Home</a><strong> · </strong><a href="#">Blog</a
-          ><strong> · </strong><a href="#">Pricing</a><strong> · </strong
-          ><a href="#">About</a><strong> · </strong><a href="#">Faq</a
+          <a th:href="@{/welcome}">Home</a><strong> · </strong><a href="#">Blog</a
+          > · </strong
+          ><a th:href="@{/welcome}">About</a><strong> · </strong><a href="#">Faq</a
           ><strong> · </strong><a href="#">Contact</a>
         </p>
-        <p class="company-name">Company Name © 2015</p>
+        <p class="company-name">Gupta's Hospital © 2000</p>
       </div>
       <div class="col-sm-6 col-md-4 footer-contacts">
         <div>
           <span class="fa fa-map-marker footer-contacts-icon"> </span>
           <p>
-            <span class="new-line-span">21 Revolution Street</span> Paris,
-            France
+            <span class="new-line-span">Mahatma Gandhi Road, Sector-22</span> Gurugram,
+            Haryana
           </p>
         </div>
         <div>
           <i class="fa fa-phone footer-contacts-icon"></i>
-          <p class="footer-center-info email text-start">+1 555 123456</p>
+          <p class="footer-center-info email text-start">+91 9812-437-285</p>
         </div>
         <div>
           <i class="fa fa-envelope footer-contacts-icon"></i>
-          <p><a href="#" target="_blank">support@company.com</a></p>
+          <p><a th:href="@{/welcome}" target="_blank">guptacare18@gmail.com</a></p>
         </div>
       </div>
       <div class="col-md-4 footer-about">
-        <h4>About the company</h4>
+        <h4>About the Hospital</h4>
         <p>
-          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce
-          euismod convallis velit, eu auctor lacus vehicula sit amet.
+          Best Hospital in North India. Top doctors of their respective field work here and latest equipments of all kinds present. Continuing its legacy for 20 years now and on...
         </p>
         <div class="social-links social-icons">
-          <a href="#"><i class="fa fa-facebook"></i></a
-          ><a href="#"><i class="fa fa-twitter"></i></a
-          ><a href="#"><i class="fa fa-linkedin"></i></a
-          ><a href="#"><i class="fa fa-github"></i></a>
+          <a href="https://github.com/dhruvgp180901/Gupta-Care-DBMS"><i class="fa fa-facebook"></i></a
+          ><a href="https://github.com/dhruvgp180901/Gupta-Care-DBMS"><i class="fa fa-twitter"></i></a
+          ><a href="https://github.com/dhruvgp180901/Gupta-Care-DBMS"><i class="fa fa-linkedin"></i></a
+          ><a href="https://github.com/dhruvgp180901/Gupta-Care-DBMS"><i class="fa fa-github"></i></a>
         </div>
       </div>
     </div>

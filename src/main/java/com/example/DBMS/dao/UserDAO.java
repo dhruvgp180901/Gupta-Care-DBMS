@@ -30,14 +30,14 @@ public class UserDAO {
 
 	public void save(User user) {
 
-		// user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		System.out.println(user.getUsername());
-		String sql = "insert into user(username,password,role,photo,birthDate,gender,adhaarNumber,emailID,firstName,middleName,lastName,street,city,state,country,phone) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		// System.out.println(user.getUsername());
+		String sql = "insert into user(username,password,role,photo,birthDate,gender,adhaarNumber,emailID,firstName,middleName,lastName,street,city,state,country,phone,token,active) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 		jt.update(sql, user.getUsername(), user.getPassword(), user.getRole(), user.getPhoto(), user.getBirthDate(),
 				user.getGender(), user.getAdhaarNumber(), user.getEmailID(), user.getFirstName(), user.getMiddleName(),
 				user.getLastName(), user.getStreet(), user.getCity(), user.getState(), user.getCountry(),
-				user.getPhone());
-		System.out.println(user.getUsername());
+				user.getPhone(),user.getToken(),user.getActive());
+		// System.out.println(user.getUsername());
 
 	}
 
@@ -46,6 +46,13 @@ public class UserDAO {
 
 		String sql = "update user set adhaarNumber = ?,street = ?,city = ?,state = ?,country = ?,phone = ? where username = ?";
 		jt.update(sql, aadharNumber, street, city, state, country, phone, username);
+	}
+
+
+	public void updateActivity(String username,int active) {
+
+		String sql = "update user set active = ? where username = ?";
+		jt.update(sql, active, username);
 	}
 
 	public void delete(String username) {
@@ -96,7 +103,32 @@ public class UserDAO {
 			return true;
 		else
 			return false;
-
 	}
 
+	public boolean updatePassword(String username,String oldPassword,String oldPasswordEntered, String newPassword) {
+		
+		if(bCryptPasswordEncoder.matches(oldPasswordEntered,oldPassword)) {
+			String sql="update user set password=? where username=?;";
+			String encodedNewPassword=bCryptPasswordEncoder.encode(newPassword);
+			jt.update(sql,encodedNewPassword,username);
+			return true;
+		}else {
+			return false;
+		}	
+	}
+
+	public User findByConfirmationToken(String token) {
+        String sql = "select * from user where token='" + token + "'";
+        try{
+        	return jt.queryForObject(sql, new RowMapper<User>() {
+                public User mapRow(ResultSet row, int rowNum) throws SQLException {                	
+                	User user = (new BeanPropertyRowMapper<>(User.class)).mapRow(row,rowNum);
+                	return user;
+                }
+            });        
+        }catch(EmptyResultDataAccessException e){
+        	return null;
+        }         
+    }
+	
 }

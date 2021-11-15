@@ -43,6 +43,8 @@ public class WorkDAO {
 
 		String sql = "delete from work where workID = ?";
 		jt.update(sql, workid);
+
+		
 	}
 
 	public List<Work> findByUsername(String username) {
@@ -51,8 +53,19 @@ public class WorkDAO {
 	}
 
 	public Work findByID(int workid) {
-		String sql = "select * from work where workid=?";
-		return jt.queryForObject(sql, new BeanPropertyRowMapper<>(Work.class),workid);
+		String sql = "select * from work where workid=" + workid;
+		// return jt.queryForObject(sql, new BeanPropertyRowMapper<>(Work.class),workid);
+
+		try {
+			return jt.queryForObject(sql, new RowMapper<Work>() {
+				public Work mapRow(ResultSet row, int rowNum) throws SQLException {
+					Work user = (new BeanPropertyRowMapper<>(Work.class)).mapRow(row, rowNum);
+					return user;
+				}
+			});
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	public List<Work> allWorks() {

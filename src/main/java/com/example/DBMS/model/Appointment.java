@@ -5,7 +5,6 @@ public class Appointment {
 	private int appointmentID;
 	private String patientName;
 	private String doctorName;
-
 	private String currDate;
 
 	private String bookDate;

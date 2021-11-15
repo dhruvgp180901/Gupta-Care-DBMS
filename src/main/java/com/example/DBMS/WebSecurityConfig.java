@@ -25,6 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // super.configure(http);
     //  security.httpBasic().disable();
     http.csrf().disable();
+    
 
     }
 

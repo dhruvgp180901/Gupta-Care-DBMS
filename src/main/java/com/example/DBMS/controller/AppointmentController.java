@@ -59,8 +59,30 @@ public class AppointmentController {
 	 private AuthenticateService authenticateService;
 
     @GetMapping("/{patientName}/{doctorName}/appointment")
-	public String appointment(@PathVariable("patientName") String username,@PathVariable("doctorName") String doctorName, Model model, HttpSession session) {
+	public String appointment(@PathVariable("patientName") String username,@PathVariable("doctorName") String doctorName, Model model,
+	HttpSession session,RedirectAttributes redirectAttributes) {
 
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+		
+		// String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(authenticateService.getCurrentUser(session) != username)
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
+		// authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(doctorDAO.findByDoctorname(doctorName) == null)
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+		
 		System.out.println(username);
 		Appointment appointment=new Appointment();
 
@@ -69,6 +91,9 @@ public class AppointmentController {
 		appointment.setCurrDate(new Date().toString());
 
 		model.addAttribute("appointment", appointment);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 		return "appointment";
 	}
@@ -109,9 +134,24 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/confirmappointment/{id}")
-	public String confirmappointment(@PathVariable("id") int id, Model model, HttpSession session) {
+	public String confirmappointment(@PathVariable("id") int id, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
+		
 		Appointment appointment = appointmentDAO.findByID(id);
+
+		String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
+		// if(authenticateService.getCurrentUser(session) != appointment.getPatientName())
+		// {
+		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+		// 	return "redirect:/badAuthorize";
+		// }
+
 		System.out.println(appointment);
 
 
@@ -123,6 +163,9 @@ public class AppointmentController {
 		model.addAttribute("cost", doctor.getAppointmentCost());
 		model.addAttribute("appointment", appointment);
 		model.addAttribute("id", id);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 		return "confirmappointment";
 	}
@@ -138,7 +181,14 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/myappointments")
-	public String myappointment(Model model, HttpSession session) {
+	public String myappointment(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+
+		String loginMessage = "Please Sign in to proceed!!!";
+		if(!authenticateService.isAuthenticated(session))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
+			return "redirect:/login";
+		}
 
 		String username = authenticateService.getCurrentUser(session);
 
@@ -172,6 +222,9 @@ public class AppointmentController {
 		model.addAttribute("feedbacks", feedbacks);
 		model.addAttribute("costs", costs);
 		model.addAttribute("appointments", appointments);
+		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
+		User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
+		model.addAttribute("loggedUser", loggedUser);
 
 		return "myappointments";
 	} 

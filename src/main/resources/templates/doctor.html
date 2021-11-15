@@ -29,7 +29,7 @@
             <div class="col-8">
             <div class="col-4 product-price" th:text="${doctor.specialization}" style="text-align:left;margin-left: 40px;">Specialization</div>
             </div>
-            <div class="col-4 product-price" style="padding-right: 80px;">$599.00</div>
+            <div class="col-4 product-price" style="padding-right: 80px;" th:text="'₹' + *{doctor.appointmentCost}">$599.00</div>
           </div>
           <div class="row">
             <div class="col-8">

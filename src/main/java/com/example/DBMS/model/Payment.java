@@ -5,9 +5,36 @@ public class Payment {
     private int paymentID;
     private String purpose;
     private int purposeID;
-
     private int amount;
     private String payDate;
+    private String cardNumber;
+    private String expirationDate;
+    private String cvv;
+
+    public String getCardNumber() {
+        return this.cardNumber;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public String getExpirationDate() {
+        return this.expirationDate;
+    }
+
+    public void setExpirationDate(String expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getCvv() {
+        return this.cvv;
+    }
+
+    public void setCvv(String cvv) {
+        this.cvv = cvv;
+    }
+
     private String status;
 
     public int getPaymentID() {
