@@ -79,21 +79,21 @@ public class RegisterController {
 				System.out.println(user.getUsername());
 
 
-				////////////////////////Email-Verification/////////////////////
-				String token = UUID.randomUUID().toString();
-				user.setToken(token);
-				userDAO.save(user);
+				// ////////////////////////Email-Verification/////////////////////
+				// String token = UUID.randomUUID().toString();
+				// user.setToken(token);
+				// userDAO.save(user);
 
-				SimpleMailMessage mailMessage = new SimpleMailMessage();
-				mailMessage.setTo(user.getEmailID());
-				mailMessage.setSubject("Complete Registration!");
-				mailMessage.setFrom("guptacare18@gmail.com");
-				mailMessage.setText("Your account has been registered on Gupta-Care. To confirm your account, please click here : "
-						+HostName.getHost()+"confirm-account?token="+token);
+				// SimpleMailMessage mailMessage = new SimpleMailMessage();
+				// mailMessage.setTo(user.getEmailID());
+				// mailMessage.setSubject("Complete Registration!");
+				// mailMessage.setFrom("guptacare18@gmail.com");
+				// mailMessage.setText("Your account has been registered on Gupta-Care. To confirm your account, please click here : "
+				// 		+HostName.getHost()+"confirm-account?token="+token);
 				
-				///////////////////////Email-Verification/////////////////////
+				// ///////////////////////Email-Verification/////////////////////
 				
-				emailSenderService.sendEmail(mailMessage);
+				// emailSenderService.sendEmail(mailMessage);
 
                 toastService.redirectWithSuccessToast(redirectAttributes, "Successfully Registered...");
                 return "redirect:/login";
@@ -107,7 +107,7 @@ public class RegisterController {
 	    
 		model.addAttribute("user", user);
         toastService.displayErrorToast(model, errorMessage);
-        return "/register";
+        return "register";
 		
 	}
 
