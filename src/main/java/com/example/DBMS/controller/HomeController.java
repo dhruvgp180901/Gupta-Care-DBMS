@@ -156,100 +156,100 @@ public class HomeController {
 
 		return "badAuthorize";
 	}
-}
 
 
 
-// 	@GetMapping(value = "/payment/paid")
-// 	public String success(@RequestParam("transaction_id")String transaction_id, Model model, HttpSession session)
-// 	{	
 
-// 		try {
+	@GetMapping(value = "/payment/paid")
+	public String success(@RequestParam("transaction_id")String transaction_id, Model model, HttpSession session)
+	{	
+
+		try {
 			
-// 		    PaymentOrder paymentOrder = api.getPaymentOrderByTransactionId(transaction_id);
+		    PaymentOrder paymentOrder = api.getPaymentOrderByTransactionId(transaction_id);
 		    
 		    
-// 		    Transaction transaction=transactionDAO.updateVerified(transaction_id);
-// 			System.out.println("Pay");
+		    // Transaction transaction=transactionDAO.updateVerified(transaction_id);
+			System.out.println("Pay");
 
-// 			System.out.println(paymentOrder);
-// 			System.out.println("Pay");
+			System.out.println(paymentOrder);
+			System.out.println("Pay");
 
-// 			System.out.println(transaction);
+			// System.out.println(transaction);
 	    	
-// 	    	return "redirect:/login";
+	    	return "redirect:/login";
 		    
 
-// 		} catch (Exception e) {
+		} catch (Exception e) {
 		    
-// 		    return "redirect:/";
+		    return "redirect:/";
 		    
 
-// 		}
+		}
 		
-// 	}
+	}
 	
-// 	@GetMapping("/payment")
-// 	public String pay(Model model, HttpSession session) {
+	@GetMapping("/payment")
+	public String pay(Model model, HttpSession session) {
 		
 
-// 		// api = InstamojoImpl.getApi(clientId, clientSecret, )
+		// api = InstamojoImpl.getApi(clientId, clientSecret, )
 
-// 		// System.out.println(api);
+		// System.out.println(api);
 
-// 		float fees = 20;
-// 		String clientId = "test_23S7qHPCPl85W3iriMorlc15Unt4a8Akg40";
-// 		String clientSecret = "test_R78aFel2JNDEcsOlir6WnU3AAs2sOIsAxc9cQOnh0D6KJMtufzNvpl58oXqfmBpHDZcivBNHeVeo1wzebpnETXrQnOPb69Ao9AC6k6ImoFQZlRe49QNBuuOJzro";
-// 		// String clientId = "test_23S7qHPCPl85W3iriMorlc15Unt4a8Akg40";
-// 		// String clientSecret = "test_R78aFel2JNDEcsOlir6WnU3AAs2sOIsAxc9cQOnh0D6KJMtufzNvpl58oXqfmBpHDZcivBNHeVeo1wzebpnETXrQnOPb69Ao9AC6k6ImoFQZlRe49QNBuuOJzro";
+		float fees = 20;
+		String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
+		// String clientId = "test_23S7qHPCPl85W3iriMorlc15Unt4a8Akg40";
+		// String clientSecret = "test_R78aFel2JNDEcsOlir6WnU3AAs2sOIsAxc9cQOnh0D6KJMtufzNvpl58oXqfmBpHDZcivBNHeVeo1wzebpnETXrQnOPb69Ao9AC6k6ImoFQZlRe49QNBuuOJzro";
 
-// 	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
-// 	    api = new InstamojoImpl(context);
+	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	    api = new InstamojoImpl(context);
 
-// 		PaymentOrder order = new PaymentOrder();
-// 		order.setName("student1");
-// 		order.setEmail("guptacare18@gmail.com");
-// 		order.setPhone("9204040100");
-// 		order.setCurrency("INR");
-// 		order.setAmount((double) fees);
-// 		order.setDescription("Enrollment");
+		PaymentOrder order = new PaymentOrder();
+		order.setName("student1");
+		order.setEmail("guptacare18@gmail.com");
+		order.setPhone("9204040100");
+		order.setCurrency("INR");
+		order.setAmount((double) fees);
+		order.setDescription("Enrollment");
 		
-// 		order.setRedirectUrl(HostName.getHost()+"payment/paid");
-// 		order.setWebhookUrl("http://www.someurl.com/");
-// 		String token= UUID.randomUUID().toString();
-// 		order.setTransactionId(token);
+		order.setRedirectUrl(HostName.getHost()+"payment/paid");
+		order.setWebhookUrl("http://www.someurl.com/");
+		String token= UUID.randomUUID().toString();
+		order.setTransactionId(token);
 		
-// 		System.out.println(order);
+		System.out.println(order);
 
 
-// 		try {
+		try {
 
-// 		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
 		    
-// 		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
-//         	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
+		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+        	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
 			
-// 		// System.out.println(paymentOrderId);
-//         	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
+		// System.out.println(paymentOrderId);
+        	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
         	
-//         	// Transaction transaction = new Transaction();
-//     	    // transaction.setAmount(20);  
-//     	    // transaction.setVerified(false);
-//     	    // transaction.setTransactionDate(new Date());
-//    	     	// transaction.setTransactionTime(new Date());
-// 	    	// transaction.setMode("online");
-// 	    	// transaction.setToken(token);
-// 	    	// transactionDAO.save(transaction);
+        	// Transaction transaction = new Transaction();
+    	    // transaction.setAmount(20);  
+    	    // transaction.setVerified(false);
+    	    // transaction.setTransactionDate(new Date());
+   	     	// transaction.setTransactionTime(new Date());
+	    	// transaction.setMode("online");
+	    	// transaction.setToken(token);
+	    	// transactionDAO.save(transaction);
 
-// 			return "redirect:/" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
         	
 
-// 		} catch (HTTPException e) {
-// 			System.out.println(e);
-// 		} catch (ConnectionException e) {
-// 			System.out.println(e);
+		} catch (HTTPException e) {
+			System.out.println(e);
+		} catch (ConnectionException e) {
+			System.out.println(e);
 
-// 		}
-// 		return "redirect:/welcome";
-// 	}
-// }
+		}
+		return "redirect:/welcome";
+	}
+}
