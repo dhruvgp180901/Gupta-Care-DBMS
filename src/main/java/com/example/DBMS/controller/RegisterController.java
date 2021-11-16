@@ -80,9 +80,9 @@ public class RegisterController {
 
 
 				// ////////////////////////Email-Verification/////////////////////
-				// String token = UUID.randomUUID().toString();
-				// user.setToken(token);
-				// userDAO.save(user);
+				String token = UUID.randomUUID().toString();
+				user.setToken(token);
+				userDAO.save(user);
 
 				// SimpleMailMessage mailMessage = new SimpleMailMessage();
 				// mailMessage.setTo(user.getEmailID());
