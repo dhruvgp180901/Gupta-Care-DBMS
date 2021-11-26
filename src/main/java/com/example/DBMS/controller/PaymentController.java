@@ -4,10 +4,12 @@ import java.security.Principal;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import com.example.DBMS.Utils.FileUploadUtil;
+import com.example.DBMS.Utils.HostName;
 import com.example.DBMS.dao.AppointmentDAO;
 import com.example.DBMS.dao.BookroomDAO;
 import com.example.DBMS.dao.DoctorDAO;
@@ -31,6 +33,13 @@ import com.example.DBMS.model.Test;
 import com.example.DBMS.service.AuthenticateService;
 import com.example.DBMS.service.ToastService;
 import com.example.DBMS.validator.UserValidator;
+import com.instamojo.wrapper.api.ApiContext;
+import com.instamojo.wrapper.api.Instamojo;
+import com.instamojo.wrapper.api.InstamojoImpl;
+import com.instamojo.wrapper.exception.ConnectionException;
+import com.instamojo.wrapper.exception.HTTPException;
+import com.instamojo.wrapper.model.PaymentOrder;
+import com.instamojo.wrapper.model.PaymentOrderResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +48,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -69,6 +79,8 @@ public class PaymentController {
     @Autowired
     private AuthenticateService authenticateService;
 
+    Instamojo api;
+
 
 	@GetMapping("/payment/{appointmentID}")
 	public String showbill(@PathVariable("appointmentID") int id, Model model, HttpSession session) {
@@ -85,31 +97,60 @@ public class PaymentController {
         payment.setAmount(doctor.getAppointmentCost());
         String date = new Date().toString();
         payment.setPayDate(date);
-
-        model.addAttribute("payment", payment);
-        model.addAttribute("id", id);
-        model.addAttribute("date", date);
-
-        return "makepayment";
-	}
-
-    @PostMapping("/payment/{appointmentID}")
-	public String paymentPost(@ModelAttribute("payment") Payment payment, @PathVariable("appointmentID") int id, Model model,RedirectAttributes redirectAttributes) {
-
-        payment.setStatus("Confirmed");
         payment.setPurpose("Appointment");
-        String date = new Date().toString();
-        payment.setPayDate(date);
-
-
-        Appointment appointment = appointmentDAO.findByID(id);
-
-        appointment.setStatus("Confirmed");
-
 
         paymentDAO.save(payment);
-        model.addAttribute("payment", payment);
-        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Made Succesfully...");
+
+        int payid = paymentDAO.getLastID();
+
+        String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
+
+	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	    api = new InstamojoImpl(context);
+
+		PaymentOrder order = new PaymentOrder();
+		order.setName(appointment.getPatientName());
+		order.setEmail("guptacare18@gmail.com");
+		order.setPhone("7404528473");
+		order.setCurrency("INR");
+		order.setAmount((double) doctor.getAppointmentCost());
+		order.setDescription("Appointment");
+		
+		order.setRedirectUrl(HostName.getHost()+"payment/" + id + "/paid/" + payid);
+		order.setWebhookUrl("http://www.someurl.com/");
+		String token= UUID.randomUUID().toString();
+		order.setTransactionId(token);
+		
+		System.out.println(order);
+
+
+		try {
+
+		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+		    
+		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+
+			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+        	
+
+		} catch (HTTPException e) {
+			System.out.println(e);
+		} catch (ConnectionException e) {
+			System.out.println(e);
+
+		}
+		return "redirect:/welcome";
+	}
+
+    @GetMapping("/payment/{appointmentID}/paid/{payid}")
+	public String paymentPost(@RequestParam("transaction_id")String transactionid, @PathVariable("appointmentID") int id,@PathVariable("payid") int payid, Model model,RedirectAttributes redirectAttributes) {
+
+        paymentDAO.updateTransaction(payid, transactionid);
+        appointmentDAO.updateStatus(id, "Confirmed");
+
+        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Successfull");
+
         return "redirect:/welcome";
 
 	}
@@ -127,26 +168,63 @@ public class PaymentController {
 
         payment.setAmount(test.getCost());
         payment.setPayDate(new Date().toString());
-
-        model.addAttribute("payment", payment);
-        model.addAttribute("id", id);
-
-        return "makepayment";
-	}
-
-    @PostMapping("/testpayment/{testbookingID}")
-	public String testpaymentPost(@ModelAttribute("payment") Payment payment, @PathVariable("testbookingID") int id, Model model,RedirectAttributes redirectAttributes) {
-
-        payment.setStatus("Confirmed");
         payment.setPurpose("TestBooking");
 
-        Testbooking testbooking = testbookingDAO.findByID(id);
-
-        testbooking.setStatus("Confirmed");
-
         paymentDAO.save(payment);
-        
-        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Made Succesfully...");
+
+        int payid = paymentDAO.getLastID();
+
+        String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
+
+	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	    api = new InstamojoImpl(context);
+
+		PaymentOrder order = new PaymentOrder();
+		order.setName(testbooking.getPatientName());
+		order.setEmail("guptacare18@gmail.com");
+		order.setPhone("7404528473");
+		order.setCurrency("INR");
+		order.setAmount((double) test.getCost());
+		order.setDescription("Test Booking");
+		
+		order.setRedirectUrl(HostName.getHost()+"testpayment/" + id + "/paid/" + payid);
+		order.setWebhookUrl("http://www.someurl.com/");
+		String token= UUID.randomUUID().toString();
+		order.setTransactionId(token);
+		
+		System.out.println(order);
+
+
+		try {
+
+		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+		    
+		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+
+			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+        	
+
+		} catch (HTTPException e) {
+			System.out.println(e);
+		} catch (ConnectionException e) {
+			System.out.println(e);
+
+		}
+		return "redirect:/welcome";
+
+	}
+
+    @GetMapping("/testpayment/{testbookingID}/paid/{payid}")
+	public String testpaymentPost(@RequestParam("transaction_id") String transactionid,  @PathVariable("payid") int payid, @PathVariable("testbookingID") int id, Model model,RedirectAttributes redirectAttributes) {
+
+
+        paymentDAO.updateTransaction(payid, transactionid);
+        System.out.println(id);
+        testbookingDAO.updateStatus(id, "Confirmed");
+
+        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Successfull");
+
         return "redirect:/welcome";
 	}
 
@@ -162,26 +240,64 @@ public class PaymentController {
         Room room = roomDAO.findByID(bookroom.getRoomID());
         payment.setAmount(room.getCost());
         payment.setPayDate(new Date().toString());
-
-        model.addAttribute("payment", payment);
-        model.addAttribute("id", id);
-
-        return "makepayment";
-	}
-
-    @PostMapping("/payroom/{bookroomID}")
-	public String paymentRoomPost(@ModelAttribute("payment") Payment payment, @PathVariable("bookroomID") int id, Model model, RedirectAttributes redirectAttributes) {
-
-        payment.setStatus("Confirmed");
         payment.setPurpose("Room Booking");
+
         paymentDAO.save(payment);
 
+        int payid = paymentDAO.getLastID();
 
-        Bookroom bookroom = bookroomDAO.findByID(id);
 
-        bookroom.setStatus("Confirmed");
+        String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
 
-        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Made Succesfully...");
+	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	    api = new InstamojoImpl(context);
+
+		PaymentOrder order = new PaymentOrder();
+		order.setName(bookroom.getUsername());
+		order.setEmail("guptacare18@gmail.com");
+		order.setPhone("7404528473");
+		order.setCurrency("INR");
+		order.setAmount((double) room.getCost());
+		order.setDescription("Test Booking");
+		
+		order.setRedirectUrl(HostName.getHost()+"roompayment/" + id + "/paid/" + payid);
+		order.setWebhookUrl("http://www.someurl.com/");
+		String token= UUID.randomUUID().toString();
+		order.setTransactionId(token);
+		
+		System.out.println(order);
+
+
+		try {
+
+		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+		    
+		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+
+			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+        	
+
+		} catch (HTTPException e) {
+			System.out.println(e);
+		} catch (ConnectionException e) {
+			System.out.println(e);
+
+		}
+		return "redirect:/welcome";
+
+	}
+
+    @GetMapping("/roompayment/{bookroomID}/paid/{payid}")
+	public String paymentRoomPost(@RequestParam("transaction_id") String transactionid, @PathVariable("payid") int payid,@PathVariable("bookroomID") int id, Model model, RedirectAttributes redirectAttributes) {
+
+
+        paymentDAO.updateTransaction(payid, transactionid);
+        System.out.println(id);
+        bookroomDAO.updateStatus(id, "Confirmed");
+
+        toastService.redirectWithSuccessToast(redirectAttributes, "Payment Successfull");
+
         return "redirect:/welcome";
 
 	}

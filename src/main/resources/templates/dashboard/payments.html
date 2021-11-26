@@ -36,7 +36,6 @@
                         <th>Purpose</th>
                         <th>Purpose ID</th>
                         <th>Date</th>
-                        <th>Status</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -52,18 +51,6 @@
                         <td th:text="${payment.purposeID}">Date</td>
                         <td th:text="${payment.payDate}">Start Time</td>
                         
-                        <td
-                          th:if="${payment.status} == 'Confirmed'"
-                          th:text="Paid"
-                        >
-                          Status
-                        </td>
-                        <td
-                          th:unless="${payment.status} == 'Confirmed'"
-                          th:text="Unpaid"
-                        >
-                          Status
-                        </td>
                         <td>
                           <a
                             th:href="${'/dashboard/delete/payment/' + payment.paymentID}"

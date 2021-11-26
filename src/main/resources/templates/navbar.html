@@ -68,6 +68,11 @@
                                 Change Password
                             </a>
                             <div class="dropdown-divider"></div>
+                            <a th:if="${loggedUser.role} == 'Admin'" class="dropdown-item" th:href="@{/dashboard}" >
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Go to Dashboard
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" th:href="@{/logout}" >
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout

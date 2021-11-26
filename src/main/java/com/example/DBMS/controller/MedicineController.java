@@ -3,10 +3,12 @@ package com.example.DBMS.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
 import com.example.DBMS.Utils.FileUploadUtil;
+import com.example.DBMS.Utils.HostName;
 import com.example.DBMS.Utils.FileUploadUtil;
 import com.example.DBMS.dao.FeedbackDAO;
 import com.example.DBMS.dao.MedicineDAO;
@@ -24,6 +26,13 @@ import com.example.DBMS.model.PayorderMed;
 import com.example.DBMS.model.User;
 import com.example.DBMS.service.AuthenticateService;
 import com.example.DBMS.service.ToastService;
+import com.instamojo.wrapper.api.ApiContext;
+import com.instamojo.wrapper.api.Instamojo;
+import com.instamojo.wrapper.api.InstamojoImpl;
+import com.instamojo.wrapper.exception.ConnectionException;
+import com.instamojo.wrapper.exception.HTTPException;
+import com.instamojo.wrapper.model.PaymentOrder;
+import com.instamojo.wrapper.model.PaymentOrderResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,6 +67,8 @@ public class MedicineController {
 	 private PayorderMedDAO payorderMedDAO;
     @Autowired
 	 private UserDAO userDAO;
+
+    Instamojo api;
 
      @GetMapping("/medicines")
      public String alltmedicines(Model model,HttpSession session) {
@@ -104,12 +115,14 @@ public class MedicineController {
 		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
       User loggedUser = userDAO.findByUsername(authenticateService.getCurrentUser(session));
 		model.addAttribute("loggedUser", loggedUser);
+        toastService.redirectWithSuccessToast(redirectAttributes, "Added to Cart");
+
 
       return "redirect:/medicines";
      }
 
      @PostMapping("/medicine/{id}")
-     public String ordermedicinePost(@PathVariable("id") int id, Model model,HttpSession session) {
+     public String ordermedicinePost(@PathVariable("id") int id, Model model,HttpSession session, RedirectAttributes redirectAttributes) {
  
         Order order = new Order();
 
@@ -121,6 +134,9 @@ public class MedicineController {
         order.setCost(medicine.getCost());
         order.setDate(java.time.LocalDate.now().toString());
         orderDAO.save(order);
+
+
+        toastService.redirectWithSuccessToast(redirectAttributes, "Added to Cart");
 
         return "redirect:/medicines";
 
@@ -281,7 +297,7 @@ public class MedicineController {
       payment.setPurpose("Medicines Order");
       payment.setPayDate(new Date().toString());
       payment.setPurposeID(user.getUserID());
-      payment.setStatus("Pending");
+      
 
       int amount = 0;
 
@@ -299,13 +315,12 @@ public class MedicineController {
       
       paymentDAO.save(payment);
 
-      int lastPaymentid = paymentDAO.getLastID();
+      int payid = paymentDAO.getLastID();
 
-      
       for(int i=0;i<medicines.size();i++) {
 
          PayorderMed payorderMed = new PayorderMed();
-         payorderMed.setPaymentID(lastPaymentid);
+         payorderMed.setPaymentID(payid);
          payorderMed.setMedicineID(medicines.get(i));
          payorderMed.setQuantity(quantities.get(i));
 
@@ -320,17 +335,52 @@ public class MedicineController {
       model.addAttribute("payment", payment);
 		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
 
-      return "makepayment";
+
+      String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
+
+	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	    api = new InstamojoImpl(context);
+
+		PaymentOrder order = new PaymentOrder();
+		order.setName(authenticateService.getCurrentUser(session));
+		order.setEmail("guptacare18@gmail.com");
+		order.setPhone("7404528473");
+		order.setCurrency("INR");
+		order.setAmount((double) amount);
+		order.setDescription("Test Booking");
+		
+		order.setRedirectUrl(HostName.getHost()+"paymedicine/paid/" + payid);
+		order.setWebhookUrl("http://www.someurl.com/");
+		String token= UUID.randomUUID().toString();
+		order.setTransactionId(token);
+		
+		System.out.println(order);
+
+
+		try {
+
+		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+		    
+		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+
+			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+        	
+
+		} catch (HTTPException e) {
+			System.out.println(e);
+		} catch (ConnectionException e) {
+			System.out.println(e);
+
+		}
+		return "redirect:/welcome";
+
    }
 
-   @PostMapping("/paymedicine")
-	public String paymentMedicinePost(@ModelAttribute("payment") Payment payment,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+   @GetMapping("/paymedicine/paid/{id}")
+	public String paymentMedicinePost(@RequestParam("transaction_id")String transactonid ,@PathVariable("id") int payid,HttpSession session, RedirectAttributes redirectAttributes) {
 
-        payment.setStatus("Confirmed");
-        payment.setPurpose("Medicine Order");
-
-        paymentDAO.save(payment);
-
+      paymentDAO.updateTransaction(payid, transactonid);
         toastService.redirectWithSuccessToast(redirectAttributes, "Payment Made Succesfully...");
         return "redirect:/welcome";
 
@@ -400,7 +450,6 @@ public class MedicineController {
 
       model.addAttribute("date", payment.getPayDate());
 
-      model.addAttribute("status", payment.getStatus());
 
       List<PayorderMed> payorders = payorderMedDAO.findByPaymentID(paymentid);
 
@@ -444,6 +493,6 @@ public class MedicineController {
 
 		feedbackDAO.save(feedback);
 
-		return "redirect:/mytestbookings";
+		return "redirect:/mymedicineorders";
 	}
 }

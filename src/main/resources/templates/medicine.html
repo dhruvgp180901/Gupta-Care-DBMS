@@ -27,18 +27,15 @@
         </div>
         <div class="row">
             <div class="col-8">
-            <div class="col-4 product-price" th:text="${medicine.cost}" style="text-align:left;margin-left: 40px;">Company</div>
+            <div class="col-4 product-price" th:text="${medicine.company}" style="text-align:left;margin-left: 40px;">Company</div>
             </div>
-            <div class="col-4 product-price" th:text="${medicine.cost}" style="padding-right: 80px;">Cost</div>
+            <div class="col-4 product-price" th:text="'₹' + ${medicine.cost}" style="padding-right: 80px;">Cost</div>
           </div>
           <div class="row">
             <div class="col-8">
             <div class="col-4 product-price" th:text="${medicine.purpose}" style="text-align:left;margin-left: 40px;">Purpose</div>
             </div>
             <div class="col-4 product-price" th:text="${medicine.color}" style="padding-right: 80px;">Color</div>
-            </div>
-            <div class="col-12">
-                <p class="product-description" style="padding-top: 10px; text-align:left;margin-left: 40px;">Lorem ipsum</p>
             </div>
                 <hr>
                 <div class="text-center">

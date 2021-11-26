@@ -74,7 +74,7 @@
                                 <td style="padding-top:16px;text-align: center;" th:unless="${appointment.status} == 'Confirmed'" th:text="Unpaid">Status</td>
                                 <td style="text-align: center;"><a th:href="@{/confirmappointment/__${appointment.appointmentID}__}" class="btn btn-info" style="padding:8px;font-size:15px" role="button"><i class="fa fa-eye"></i> View</a></td>
                                 
-                                <td th:if="${appointment.status == 'Pending' and feedbacks[id.index] == 0}" style="padding-top:12px;">
+                                <td th:if="${appointment.status == 'Confirmed' and feedbacks[id.index] == 0}" style="padding-top:12px;">
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                                         <span style="font-size:15px">Submit Feedback</span>
                                     </button>

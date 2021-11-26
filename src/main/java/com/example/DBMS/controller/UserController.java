@@ -149,11 +149,11 @@ public class UserController {
 		}
 
 		String authorizeMessage = "Sorry, You are not authorize to view this page!!!";
-		// if(authenticateService.getCurrentUser(session) != username)
-		// {
-		// 	toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
-		// 	return "redirect:/badAuthorize";
-		// }
+		if(!(authenticateService.getCurrentUser(session).equals(username)))
+		{
+			toastService.redirectWithErrorToast(redirectAttributes, authorizeMessage);
+			return "redirect:/badAuthorize";
+		}
 
 		User user = new User();
 
@@ -169,20 +169,24 @@ public class UserController {
 	}
 
 	@PostMapping("/{username}/change/Password")
-	public String passwordChangePost(@ModelAttribute("user") User user, @PathVariable("username") String username,HttpSession session, Model model) {
+	public String passwordChangePost(@ModelAttribute("user") User user, @PathVariable("username") String username,HttpSession session, Model model,RedirectAttributes redirectAttributes) {
 		
 		User registeredUser = userDAO.findByUsername(username);
 
 		if(userDAO.updatePassword(username, registeredUser.getPassword(), user.getOldPassword(), user.getPassword()) == true)
 		{
 			System.out.println("Hogya");
+			toastService.redirectWithSuccessToast(redirectAttributes,"Password Changed Successfully!");
+			return "redirect:/welcome";
 		}
 		else
 		{
 			System.out.println("Niii Hua");
+			toastService.redirectWithErrorToast(redirectAttributes,"Incorrect Password");
+			return "redirect:/welcome";
+
 		}
 		
-		return "redirect:/login";	
 	}
 
     

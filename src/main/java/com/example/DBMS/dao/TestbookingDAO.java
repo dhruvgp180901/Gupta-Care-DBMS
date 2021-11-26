@@ -50,6 +50,12 @@ public class TestbookingDAO {
 
 	}
 
+	public void updateStatus(int id, String status) {
+
+		String sql = "update testbooking set status = ? where testbookingID = ?";
+	    jt.update(sql, status, id);
+	}
+
 	public List<Testbooking> alltestbookings() {
 
 		String sql = "select * from testbooking;";

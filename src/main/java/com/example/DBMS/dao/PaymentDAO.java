@@ -24,16 +24,13 @@ public class PaymentDAO {
 	
 	public void save(Payment payment) {
 	
-		String sql="insert into payment(purpose,purposeID,amount,payDate,status,cardNumber,expirationDate,cvv) values (?,?,?,?,?,?,?,?);";
+		String sql="insert into payment(purpose,purposeID,amount,payDate,transactionid) values (?,?,?,?,?);";
 		jt.update(sql,
 		payment.getPurpose(),
         payment.getPurposeID(),
         payment.getAmount(),
         payment.getPayDate(),
-        payment.getStatus(),
-		payment.getCardNumber(),
-		payment.getExpirationDate(),
-		payment.getCvv()
+		payment.getTransactionid()
 		);		
 	}
 
@@ -47,6 +44,12 @@ public class PaymentDAO {
 
 		String sql = "update payment set amount = ? where paymentID = ?";
 	    jt.update(sql, amount, paymentID);
+	}
+
+	public void updateTransaction(int paymentID, String id) {
+
+		String sql = "update payment set transactionid = ? where paymentID = ?";
+	    jt.update(sql, id, paymentID);
 	}
 	
 	public Payment findByID(int paymentID) {

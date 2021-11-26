@@ -7,7 +7,7 @@ public class DoctorApplicant {
 	private int applicationID;
 	private String applicantName;
 	private String resume;
-	private long applicantPhoneNumber;
+	private String applicantPhoneNumber;
 	private String applicantEmailID;
 	private String applicationDate;
 	private String specialization;
@@ -21,7 +21,7 @@ public class DoctorApplicant {
 	public String getResume() {
 		return resume;
 	}
-	public long getApplicantPhoneNumber() {
+	public String getApplicantPhoneNumber() {
 		return applicantPhoneNumber;
 	}
 	public String getApplicantEmailID() {
@@ -37,7 +37,7 @@ public class DoctorApplicant {
 	public void setResume(String resume) {
 		this.resume = resume;
 	}
-	public void setApplicantPhoneNumber(long applicantPhoneNumber) {
+	public void setApplicantPhoneNumber(String applicantPhoneNumber) {
 		this.applicantPhoneNumber = applicantPhoneNumber;
 	}
 	public void setApplicantEmailID(String applicantEmailID) {

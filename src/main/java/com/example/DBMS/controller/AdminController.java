@@ -266,6 +266,15 @@ public class AdminController {
 
         // model.addAttribute("username", authenticateService.getCurrentUser(session));
 
+        Doctor doctor = doctorDAO.findByDoctorname(username);
+
+        if(!(doctor == null)) {
+
+            toastService.redirectWithErrorToast(redirectAttributes, "Referenced By Doctor");
+            
+            return "redirect:/dashboard/manage/users";
+        }
+
         String loginMessage = "Please Sign in to proceed!!!";
 		if(!authenticateService.isAuthenticated(session))
 		{
@@ -457,6 +466,14 @@ public class AdminController {
 			toastService.redirectWithErrorToast(redirectAttributes, loginMessage);
 			return "redirect:/login";
 		}
+
+        Appointment appointment = appointmentDAO.findByDoctor(username);
+
+        if(!(appointment == null))
+        {
+            toastService.redirectWithErrorToast(redirectAttributes,"Referenced by Appointment");
+            return "redirect:/dashboard/manage/doctors";
+        }
 
         String loggedinUser = authenticateService.getCurrentUser(session);
         User loggeduser = userDAO.findByUsername(loggedinUser);
@@ -1020,8 +1037,7 @@ public class AdminController {
                 }
             }
 
-        medicineDAO.update(medicine.getPurpose(), medicine.getDescription(),
-                medicine.getDeliveredAmount(), medicine.getDeliveredDate().toString(), medicineID);
+        medicineDAO.update(medicine, medicineID);
 
         return "redirect:/dashboard/manage/medicine/" + medicineID;
     }

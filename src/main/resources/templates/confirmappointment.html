@@ -66,7 +66,8 @@
 
                             <div><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date: </span><span class="my-2" th:text="${appointment.currDate}"> Today's Date</span></div>
 
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black">Unpaid</span></div>
+                            <div class="my-2" th:if="${appointment.status} == 'Pending'"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black;font-size: 20px;">Unpaid</span></div>
+                            <div class="my-2" th:if="${appointment.status} == 'Confirmed'"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black;font-size: 20px;">Paid</span></div>
                             <!-- <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="color:black" th:unless="${appointment.status =='Confirmed'}" text="Unpaid">Unpaid</span></div> -->
                         </div>
                     </div>
@@ -139,7 +140,7 @@
                     <form display="inline" class="custom-form" th:object="${appointment}" method="post">
                     
                     <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg">Make Payment</button>
+                    <button type="submit" class="btn btn-success btn-lg" th:if="${appointment.status} == 'Pending'">Make Payment</button>
 
                     </div>
                     </form>

@@ -48,6 +48,12 @@ public class AppointmentDAO {
 	    jt.update(sql, appointmentID);
 	}	
 	
+    public void updateStatus(int id, String status) {
+
+		String sql = "update appointment set status = ? where appointmentID = ?";
+	    jt.update(sql, status, id);
+	}
+
 	public Appointment findByID(int appointmentID) {
         String sql = "select * from appointment where appointmentID = ?";        
         return jt.queryForObject(sql, new BeanPropertyRowMapper<>(Appointment.class), appointmentID);   
@@ -71,6 +77,20 @@ public class AppointmentDAO {
         String query = "Select LAST_INSERT_ID()";
         return jt.queryForObject(query, Integer.class);
     }
+
+    public Appointment findByDoctor(String username) {
+		String sql = "select * from appointment where doctorName='" + username + "'";
+		try {
+			return jt.queryForObject(sql, new RowMapper<Appointment>() {
+				public Appointment mapRow(ResultSet row, int rowNum) throws SQLException {
+					Appointment Doctor = (new BeanPropertyRowMapper<>(Appointment.class)).mapRow(row, rowNum);
+					return Doctor;
+				}
+			});
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 
     public Boolean appointmentExists(String bookingDate, String startTime, String endTime) {
         String sql = "Select count(*) from appointment where appointment.bookDate = ? and NOT(appointment.bookStime > ? or appointment.bookEtime < ?);";

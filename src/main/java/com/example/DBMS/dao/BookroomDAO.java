@@ -66,9 +66,15 @@ public class BookroomDAO {
         return jt.queryForObject(sql, Integer.class);
     }
 
-    public List<Integer> bookroomExist(String ward, String type, int numofbeds, String startDate, String endDate) {
-        String sql = "Select room.roomID from room where ((room.ward = ? and room.type = ? and room.numberofbeds = ?) and ((Select count(*) from bookroom where room.roomID = bookroom.roomID) = 0 or (Select count(*) from bookroom where room.roomID = bookroom.roomID and NOT(bookroom.startDate > ? and bookroom.endDate < ?)) = 0 ));";
-        return jt.query(sql, new BeanPropertyRowMapper<>(Integer.class),ward,type,numofbeds,endDate,startDate);
-    }
+    public void updateStatus(int id, String status) {
+
+		String sql = "update bookroom set status = ? where bookroomID = ?";
+	    jt.update(sql, status, id);
+	}
+
+    // public List<Integer> bookroomExist(String ward, String type, int numofbeds, String startDate, String endDate) {
+    //     String sql = "Select room.roomID from room where ((room.ward = ? and room.type = ? and room.numberofbeds = ?) and ((Select count(*) from bookroom where room.roomID = bookroom.roomID) = 0 or (Select count(*) from bookroom where room.roomID = bookroom.roomID and NOT(bookroom.startDate > ? and bookroom.endDate < ?)) = 0 ));";
+    //     return jt.query(sql, new BeanPropertyRowMapper<>(Integer.class),ward,type,numofbeds,endDate,startDate);
+    // }
 
 }

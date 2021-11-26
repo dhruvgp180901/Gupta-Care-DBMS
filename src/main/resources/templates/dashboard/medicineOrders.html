@@ -56,13 +56,13 @@
                             ><i class="fa fa-eye"></i>View Medicines</a
                           ></td>
                         <td
-                          th:if="*{payment.status} == 'Confirmed'"
+                          th:if="${payment.transactionid}"
                           th:text="Paid"
                         >
                           Status
                         </td>
                         <td
-                          th:unless="*{payment.status} == 'Confirmed'"
+                          th:unless="${payment.transactionid}"
                           th:text="Unpaid"
                         >
                           Status

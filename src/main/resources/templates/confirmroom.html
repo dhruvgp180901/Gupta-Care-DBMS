@@ -29,7 +29,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="text-center text-150">
-                        <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">Appointment Bill</h1>
+                        <h1 style="transform: translate(0px);padding: 10px;font-style: italic;text-align: center;font-size: 60px;color: var(--bs-yellow);">Room Booking Bill</h1>
 
                             <!-- <span class="text-default-d3">Appointment Bill</span> -->
                         </div>
@@ -66,7 +66,8 @@
 
                             <div><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Issue Date: </span><span class="my-2" th:text="${bookroom.currDate}"> Today's Date</span></div>
 
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25">Unpaid</span></div>
+                            <div class="my-2" th:if="${bookroom.status} == 'Pending'"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="font-size:20px;color:black">Unpaid</span></div>
+                            <div class="my-2" th:if="${bookroom.status} == 'Confirmed'"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90">Status:</span> <span class="badge badge-warning badge-pill px-25" style="font-size:20px;color:black">Paid</span></div>
                         </div>
                     </div>
                     <!-- /.col -->
@@ -140,7 +141,7 @@
                     <form display="inline" class="custom-form" th:object="${bookroom}" method="post">
                     
                     <div class="text-center">
-                    <button type="submit" class="btn btn-success btn-lg">Make Payment</button>
+                    <button type="submit" class="btn btn-success btn-lg" th:if="${bookroom.status} == 'Pending'">Make Payment</button>
 
                     </div>
                     </form>

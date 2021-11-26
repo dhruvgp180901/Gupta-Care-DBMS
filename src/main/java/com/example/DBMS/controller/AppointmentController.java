@@ -123,7 +123,7 @@ public class AppointmentController {
 		} 
 		else{
 
-			appointment.setStatus("pending");
+			appointment.setStatus("Pending");
 			appointmentDAO.save(appointment);
 			int id = appointmentDAO.getLastID();
 			return "redirect:/confirmappointment/" + id ;

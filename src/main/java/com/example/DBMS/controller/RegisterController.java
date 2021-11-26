@@ -63,14 +63,14 @@ public class RegisterController {
         String errorMessage = null;
 
 		try {
-			// if(user.getPassword() != user.getPasswordConfirm()) {
+			if(!(user.getPassword().equals(user.getPasswordConfirm()))) {
 
-			// 	errorMessage = "Password and Confirm Password do not match...";
+				errorMessage = "Password and Confirm Password do not match...";
 
-			// 	model.addAttribute("user", user);
-       	 	// 	toastService.displayErrorToast(model, errorMessage);
-        	// 	return "/register";
-			// }
+				model.addAttribute("user", user);
+       	 		toastService.displayErrorToast(model, errorMessage);
+        		return "/register";
+			}
             if (!userDAO.userExists(username)) {
 				user.setRole("Patient");
 				user.setActive(0);
@@ -84,16 +84,16 @@ public class RegisterController {
 				user.setToken(token);
 				userDAO.save(user);
 
-				// SimpleMailMessage mailMessage = new SimpleMailMessage();
-				// mailMessage.setTo(user.getEmailID());
-				// mailMessage.setSubject("Complete Registration!");
-				// mailMessage.setFrom("guptacare18@gmail.com");
-				// mailMessage.setText("Your account has been registered on Gupta-Care. To confirm your account, please click here : "
-				// 		+HostName.getHost()+"confirm-account?token="+token);
+				SimpleMailMessage mailMessage = new SimpleMailMessage();
+				mailMessage.setTo(user.getEmailID());
+				mailMessage.setSubject("Complete Registration!");
+				mailMessage.setFrom("guptacare18@gmail.com");
+				mailMessage.setText("Your account has been registered on Gupta-Care. To confirm your account, please click here : "
+						+HostName.getHost()+"confirm-account?token="+token);
 				
 				// ///////////////////////Email-Verification/////////////////////
 				
-				// emailSenderService.sendEmail(mailMessage);
+				emailSenderService.sendEmail(mailMessage);
 
                 toastService.redirectWithSuccessToast(redirectAttributes, "Successfully Registered...");
                 return "redirect:/login";

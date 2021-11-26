@@ -12,7 +12,6 @@ import com.example.DBMS.Utils.FileUploadUtil;
 import com.example.DBMS.Utils.HostName;
 import com.example.DBMS.dao.DoctorApplicantDAO;
 import com.example.DBMS.dao.HomeDAO;
-import com.example.DBMS.dao.TransactionDAO;
 // import com.example.DBMS.Utils.FileUploadUtil;
 import com.example.DBMS.dao.UserDAO;
 import com.example.DBMS.dao.WorkDAO;
@@ -20,7 +19,6 @@ import com.example.DBMS.model.Appointment;
 import com.example.DBMS.model.Bill;
 import com.example.DBMS.model.ContactUsForm;
 import com.example.DBMS.model.DoctorApplicant;
-import com.example.DBMS.model.Transaction;
 import com.example.DBMS.model.User;
 import com.example.DBMS.model.Work;
 import com.example.DBMS.service.AuthenticateService;
@@ -57,8 +55,6 @@ public class HomeController {
 	@Autowired
 	private HomeDAO homeDAO;
 	@Autowired
-	private TransactionDAO transactionDAO;
-	@Autowired
 	private UserDAO userDAO;
 	@Autowired
 	private WorkDAO workDAO;
@@ -93,12 +89,13 @@ public class HomeController {
 	}
 
 	@PostMapping({"/","/welcome"})
-	public String welcomePost(@ModelAttribute("contactUs") ContactUsForm contactUs, HttpSession session) {
+	public String welcomePost(@ModelAttribute("contactUs") ContactUsForm contactUs,Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
 		contactUs.setDate(new Date().toString());
 		homeDAO.save(contactUs);
 
-		return "welcome";
+		toastService.redirectWithSuccessToast(redirectAttributes, "Query Submitted");
+		return "redirect:/welcome";
 	}
 
 	@GetMapping({"/doctor/application"})
@@ -124,7 +121,7 @@ public class HomeController {
 	}
 
 	@PostMapping({"/doctor/application"})
-	public String applyDoctorPost(@ModelAttribute("application") DoctorApplicant application,@RequestParam("file") MultipartFile file, Model model, HttpSession session) {
+	public String applyDoctorPost(@ModelAttribute("application") DoctorApplicant application,@RequestParam("file") MultipartFile file, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
 
 		doctorApplicantDAO.save(application);
 		int id = doctorApplicantDAO.getLastID();
@@ -147,7 +144,9 @@ public class HomeController {
 				System.out.println(e);
             }
         }
-		return "/welcome";
+
+		toastService.redirectWithSuccessToast(redirectAttributes, "Application Submitted Successfully!");
+		return "redirect:/welcome";
 	}
 
 
@@ -160,96 +159,88 @@ public class HomeController {
 
 
 
-	@GetMapping(value = "/payment/paid")
-	public String success(@RequestParam("transaction_id")String transaction_id, Model model, HttpSession session)
-	{	
+	// @GetMapping(value = "/payment/paid")
+	// public String success(@RequestParam("transaction_id")String transaction_id, Model model, HttpSession session)
+	// {	
 
-		try {
+	// 	try {
 			
-		    PaymentOrder paymentOrder = api.getPaymentOrderByTransactionId(transaction_id);
+	// 	    PaymentOrder paymentOrder = api.getPaymentOrderByTransactionId(transaction_id);
 		    
 		    
-		    // Transaction transaction=transactionDAO.updateVerified(transaction_id);
-			System.out.println("Pay");
+	// 	    // Transaction transaction=transactionDAO.updateVerified(transaction_id);
+	// 		System.out.println("Pay");
 
-			System.out.println(paymentOrder);
-			System.out.println("Pay");
+	// 		System.out.println(paymentOrder);
+	// 		System.out.println("Pay");
 
-			// System.out.println(transaction);
+	// 		// System.out.println(transaction);
 	    	
-	    	return "redirect:/login";
+	//     	return "redirect:/login";
 		    
 
-		} catch (Exception e) {
+	// 	} catch (Exception e) {
 		    
-		    return "redirect:/";
+	// 	    return "redirect:/";
 		    
 
-		}
+	// 	}
 		
-	}
+	// }
 	
-	@GetMapping("/payment")
-	public String pay(Model model, HttpSession session) {
+	// @GetMapping("/payment")
+	// public String pay(Model model, HttpSession session) {
 		
+	// 	String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
+	// 	String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
 
-		// api = InstamojoImpl.getApi(clientId, clientSecret, )
+	//  	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
+	//     api = new InstamojoImpl(context);
 
-		// System.out.println(api);
-
-		float fees = 20;
-		String clientId = "test_BRySN9XGrlTv2X8mI6RUg9JCBeGd8tuU2tK";
-		String clientSecret = "test_KjbkFknjnErbAweyrUKGK5GrPUgANWMN6wUxskqNzZg12q4oYeoB43InzGPH9sM5w5QriiOSI7e5F4wqaL0DmgMvQOHPCgzl8nEkBMVcdTCEuqXqYnQh7gSpvPF";
-		// String clientId = "test_23S7qHPCPl85W3iriMorlc15Unt4a8Akg40";
-		// String clientSecret = "test_R78aFel2JNDEcsOlir6WnU3AAs2sOIsAxc9cQOnh0D6KJMtufzNvpl58oXqfmBpHDZcivBNHeVeo1wzebpnETXrQnOPb69Ao9AC6k6ImoFQZlRe49QNBuuOJzro";
-
-	 	ApiContext context = ApiContext.create(clientId, clientSecret, ApiContext.Mode.TEST);
-	    api = new InstamojoImpl(context);
-
-		PaymentOrder order = new PaymentOrder();
-		order.setName("student1");
-		order.setEmail("guptacare18@gmail.com");
-		order.setPhone("9204040100");
-		order.setCurrency("INR");
-		order.setAmount((double) fees);
-		order.setDescription("Enrollment");
+	// 	PaymentOrder order = new PaymentOrder();
+	// 	order.setName("student1");
+	// 	order.setEmail("guptacare18@gmail.com");
+	// 	order.setPhone("9204040100");
+	// 	order.setCurrency("INR");
+	// 	order.setAmount((double) fees);
+	// 	order.setDescription("Enrollment");
 		
-		order.setRedirectUrl(HostName.getHost()+"payment/paid");
-		order.setWebhookUrl("http://www.someurl.com/");
-		String token= UUID.randomUUID().toString();
-		order.setTransactionId(token);
+	// 	order.setRedirectUrl(HostName.getHost()+"payment/paid");
+	// 	order.setWebhookUrl("http://www.someurl.com/");
+	// 	String token= UUID.randomUUID().toString();
+	// 	order.setTransactionId(token);
 		
-		System.out.println(order);
+	// 	System.out.println(order);
 
 
-		try {
+	// 	try {
 
-		    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
+	// 	    PaymentOrderResponse paymentOrderResponse = api.createPaymentOrder(order);
 		    
-		    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
-        	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
+	// 	    String paymentOrderId = paymentOrderResponse.getPaymentOrder().getId();		    
+    //     	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
 			
-		// System.out.println(paymentOrderId);
-        	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
+	// 	// System.out.println(paymentOrderId);
+    //     	// System.out.println(paymentOrderResponse.getPaymentOptions().getPaymentUrl());
         	
-        	// Transaction transaction = new Transaction();
-    	    // transaction.setAmount(20);  
-    	    // transaction.setVerified(false);
-    	    // transaction.setTransactionDate(new Date());
-   	     	// transaction.setTransactionTime(new Date());
-	    	// transaction.setMode("online");
-	    	// transaction.setToken(token);
-	    	// transactionDAO.save(transaction);
+    //     	// Transaction transaction = new Transaction();
+    // 	    // transaction.setAmount(20);  
+    // 	    // transaction.setVerified(false);
+    // 	    // transaction.setTransactionDate(new Date());
+   	//      	// transaction.setTransactionTime(new Date());
+	//     	// transaction.setMode("online");
+	//     	// transaction.setToken(token);
+	//     	// transactionDAO.save(transaction);
 
-			return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
+	// 		return "redirect:" + paymentOrderResponse.getPaymentOptions().getPaymentUrl();
         	
 
-		} catch (HTTPException e) {
-			System.out.println(e);
-		} catch (ConnectionException e) {
-			System.out.println(e);
+	// 	} catch (HTTPException e) {
+	// 		System.out.println(e);
+	// 	} catch (ConnectionException e) {
+	// 		System.out.println(e);
 
-		}
-		return "redirect:/welcome";
-	}
+	// 	}
+	// 	return "redirect:/welcome";
+	// }
 }

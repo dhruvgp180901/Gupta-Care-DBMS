@@ -7,35 +7,15 @@ public class Payment {
     private int purposeID;
     private int amount;
     private String payDate;
-    private String cardNumber;
-    private String expirationDate;
-    private String cvv;
+    private String transactionid;
 
-    public String getCardNumber() {
-        return this.cardNumber;
+    public String getTransactionid() {
+        return this.transactionid;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
+    public void setTransactionid(String transactionid) {
+        this.transactionid = transactionid;
     }
-
-    public String getExpirationDate() {
-        return this.expirationDate;
-    }
-
-    public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public String getCvv() {
-        return this.cvv;
-    }
-
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
-
-    private String status;
 
     public int getPaymentID() {
         return this.paymentID;
@@ -69,14 +49,6 @@ public class Payment {
         this.amount = amount;
     }
 
-    public String getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getPayDate() {
         return this.payDate;
     }
@@ -88,6 +60,6 @@ public class Payment {
     @Override
 	public String toString() {
 		return "Payment [paymentID=" + paymentID + ", purpose=" + purpose + ", purposeID=" + purposeID + ", amount="
-				+ amount + ", status=" + status + "]";
+				+ amount + ", transactonID=" + transactionid + "]";
 	}
 }

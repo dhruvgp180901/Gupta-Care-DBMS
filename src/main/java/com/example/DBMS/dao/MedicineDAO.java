@@ -29,10 +29,11 @@ public class MedicineDAO {
 				medicine.getDeliveredDate());
 	}
 
-	public void update(String purpose, String description, String deliveredAmount, String deliveredDate,
+	public void update(Medicine medicine,
 			int medicineID) {
-		String sql = "update medicine set purpose = ?, description = ?, deliveredAmount = ?, deliveredDate = ? where medicineID = ?";
-		jt.update(sql, purpose, description, deliveredAmount, deliveredDate, medicineID);
+		String sql = "update medicine set name = ?, company = ?, purpose = ?,color=?,cost=?, description = ?, deliveredAmount = ?, deliveredDate = ? where medicineID = ?";
+		jt.update(sql, medicine.getName(),medicine.getCompany(),medicine.getPurpose(),medicine.getColor(),medicine.getCost(),medicine.getDescription(),
+		medicine.getDeliveredAmount(),medicine.getDeliveredDate(), medicineID);
 	}
 
 	public void delete(int medicineID) {

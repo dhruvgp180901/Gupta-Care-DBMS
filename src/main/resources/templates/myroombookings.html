@@ -76,7 +76,7 @@
                                 <td style="padding-top:16px;text-align: center;" th:unless="${roombooking.status} == 'Confirmed'" th:text="Unpaid">Status</td>
                                 <td style="text-align: center;"><a th:href="@{/confirmroom/__${roombooking.bookroomID}__}" class="btn btn-info" style="padding:8px;font-size:15px" role="button"><i class="fa fa-eye"></i> View</a></td>
                                
-                                <td th:if="${roombooking.status == 'Pending' and feedbacks[id.index] == 0}" style="padding-top:12px;">
+                                <td th:if="${roombooking.status == 'Confirmed' and feedbacks[id.index] == 0}" style="padding-top:12px;">
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#feedbackModal">
                                         <span style="font-size:15px">Submit Feedback</span>
                                     </button>
@@ -91,7 +91,7 @@
                                                     <h5>Help us improve our services? <strong>Give us your
                                                             feedback.</strong></h5>
                                                     <hr>
-                                                    <form method="POST" th:object="${feedback}" th:action="@{/roombookings/__${roombooking.roombookingID}__/feedback}">
+                                                    <form method="POST" th:object="${feedback}" th:action="@{/roombookings/__${roombooking.bookroomID}__/feedback}">
                                                         <label>
                                                             <p style="font-size:20px;">Your overall experience
                                                                 with us</p>
@@ -136,7 +136,7 @@
                                     <span th:if="${feedbacks[id.index] &gt 3}" class="fa fa-star checked"></span>
                                     <span th:if="${feedbacks[id.index] &gt 4}" class="fa fa-star checked"></span>
                                 </td>
-                                <td th:if="*{roombooking.status} == 'Pending'" th:text="NA" class="text-center" style="padding-top:15px;"></td>
+                                <td th:if="${roombooking.status} == 'Pending'" th:text="NA" class="text-center" style="padding-top:15px;"></td>
                             </tr>
                         </tbody>
                     </table>

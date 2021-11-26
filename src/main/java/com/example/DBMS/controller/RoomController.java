@@ -81,6 +81,7 @@ public class RoomController {
         Bookroom bookroom = new Bookroom();
 
         bookroom.setUsername(authenticateService.getCurrentUser(session));
+        bookroom.setCurrDate(new Date().toString());
 
         model.addAttribute("bookroom", bookroom);
 		model.addAttribute("loggedinUser", authenticateService.getCurrentUser(session));
@@ -94,11 +95,12 @@ public class RoomController {
     @PostMapping("/ward/general")
     public String generalwardPost(@ModelAttribute("bookroom") Bookroom bookroom, Model model, HttpSession session) {
 
-        List<Integer> rooms = bookroomDAO.bookroomExist("General", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());     
+        // List<Integer> rooms = bookroomDAO.bookroomExist("General", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());     
 
-                if(rooms.size() > 0) {
+        // System.out.println(rooms.size());
+                // if(rooms.size() > 0) {
 
-                bookroom.setRoomID(rooms.get(0));
+                bookroom.setRoomID(3);
 
                 bookroom.setCurrDate(new Date().toString());
                 bookroom.setStatus("Pending");
@@ -108,12 +110,12 @@ public class RoomController {
 
                 int id = bookroomDAO.getLastID();
 
-                return "redirect:/confirmroom" + id;
-            }      
+                return "redirect:/confirmroom/" + id;
+            // }      
 
         // room not available;
 
-        return "redirect:/ward"; 
+        // return "redirect:/ward"; 
     }
 
     @GetMapping("/confirmroom/{id}")
@@ -214,11 +216,11 @@ public class RoomController {
     @PostMapping("/ward/private/single/nonac")
     public String privatesinglenonac(@ModelAttribute("bookroom") Bookroom bookroom, Model model, HttpSession session) {
 
-        List<Integer> rooms = bookroomDAO.bookroomExist("Private", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
+        // List<Integer> rooms = bookroomDAO.bookroomExist("Private", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
 
-        if(rooms.size() > 0) {
+        // if(rooms.size() > 0) {
 
-            bookroom.setRoomID(rooms.get(0));
+            bookroom.setRoomID(4);
 
             bookroom.setCurrDate(new Date().toString());
             bookroom.setStatus("Pending");
@@ -227,21 +229,21 @@ public class RoomController {
 
             int id = bookroomDAO.getLastID();
 
-            return "redirect:/confirmroom" + id;
-        }
+            return "redirect:/confirmroom/" + id;
+        // }
 
         // room not available;
 
-        return "redirect:/ward/private"; 
+        // return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/single/ac")
     public String privatesingleac(@ModelAttribute("bookroom") Bookroom bookroom, Model model, HttpSession session) {
 
-            List<Integer> rooms = bookroomDAO.bookroomExist("Private", "AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
-            if(rooms.size() > 0) {
+            // List<Integer> rooms = bookroomDAO.bookroomExist("Private", "AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
+            // if(rooms.size() > 0) {
 
-                bookroom.setRoomID(rooms.get(0));
+                bookroom.setRoomID(5);
 
                 bookroom.setCurrDate(new Date().toString());
                 bookroom.setStatus("Pending");
@@ -250,21 +252,21 @@ public class RoomController {
 
                 int id = bookroomDAO.getLastID();
 
-                return "redirect:/confirmroom" + id;
-            }      
+                return "redirect:/confirmroom/" + id;
+            // }      
         // room not available;
 
-        return "redirect:/ward/private"; 
+        // return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/double/nonac")
     public String privatedoublenonac(@ModelAttribute("bookroom") Bookroom bookroom, Model model, HttpSession session) {
 
-        List<Integer> rooms = bookroomDAO.bookroomExist("Private", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
+        // List<Integer> rooms = bookroomDAO.bookroomExist("Private", "Non-AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
         
-        if(rooms.size() > 0) {
+        // if(rooms.size() > 0) {
 
-            bookroom.setRoomID(rooms.get(0));
+            bookroom.setRoomID(6);
 
             bookroom.setCurrDate(new Date().toString());
             bookroom.setStatus("Pending");
@@ -275,23 +277,23 @@ public class RoomController {
             
             int id = bookroomDAO.getLastID();
 
-            return "redirect:/confirmroom" + id;
-        }
+            return "redirect:/confirmroom/" + id;
+        // }
       
         // room not available;
 
-        return "redirect:/ward/private"; 
+        // return "redirect:/ward/private"; 
     }
 
     @PostMapping("/ward/private/double/ac")
     public String privatedoubleac(@ModelAttribute("bookroom") Bookroom bookroom, Model model, HttpSession session) {
 
-        List<Integer> rooms = bookroomDAO.bookroomExist("Private", "AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
-        System.out.println(rooms.size());
+        // List<Integer> rooms = bookroomDAO.bookroomExist("Private", "AC", 1, bookroom.getStartDate(), bookroom.getEndDate());
+        // System.out.println(rooms.size());
 
         // if(rooms.size() > 0) {
 
-            bookroom.setRoomID(rooms.get(0));
+            bookroom.setRoomID(7);
 
             bookroom.setCurrDate(new Date().toString());
 
@@ -338,13 +340,13 @@ public class RoomController {
             Room room = roomDAO.findByID(roombookings.get(i).getRoomID());
             rooms.add(room);
 
-            int rating = feedbackDAO.isTestbookingFeedback(roombookings.get(i).getBookroomID());
+            int rating = feedbackDAO.isRoombookingFeedback(roombookings.get(i).getBookroomID());
 			System.out.println(rating);
 			if(rating == 0)
 				feedbacks.add(0);
 			else
 			{
-				feedbacks.add(feedbackDAO.testbookingRating(roombookings.get(i).getBookroomID()));
+				feedbacks.add(feedbackDAO.roombookingRating(roombookings.get(i).getBookroomID()));
 			}
         }
 

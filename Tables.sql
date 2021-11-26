@@ -45,10 +45,7 @@ CREATE TABLE IF NOT EXISTS payment
     purposeID INT NOT NULL,
     amount INT NOT NULL,
     payDate VARCHAR(255) NOT NULL,
-    cardNumber VARCHAR(255) NOT NULL,
-    expirationDate VARCHAR(255) NOT NULL,
-    cvv INT NOT NULL,
-    status VARCHAR(255) NOT NULL,
+    transactionid VARCHAR(255),
     PRIMARY KEY (paymentID)
 );
 
@@ -58,6 +55,7 @@ CREATE TABLE IF NOT EXISTS payorderMed
     paymentID INT NOT NULL,
     medicineID INT NOT NULL,
     quantity INT NOT NULL,
+    status varchar(255),
     FOREIGN KEY (paymentID) REFERENCES payment(paymentID),
     FOREIGN KEY (medicineID) REFERENCES medicine(medicineID),
     PRIMARY KEY (payorderMedID)
