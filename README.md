@@ -8,4 +8,4 @@ The web-app is deployed at **Heroku** - http://gupta-care.herokuapp.com/
 Key Features -
 
 * Email verification - On registering an user, an email is sent to verify the user.
-* **Instamojo Payment Gateway** - Transaction for enrolling in courses using third party secured payment gateway (using **Instamojo API**).
+* **Instamojo Payment Gateway** - Transactions are done using third party secured payment gateway (using **Instamojo API**).
